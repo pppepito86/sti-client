@@ -1,18 +1,14 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import { AuthConsumer } from './AuthContext'
+import { BrowserRouter as Router, Route,  Switch } from 'react-router-dom'
+import Dashboard from './Dashboard'
 
-const ProtectedRoute = ({ component: Component, ...rest }) => (
-  <AuthConsumer>
-    {({ isAuth }) => (
-      <Route
-        render={props =>
-            isAuth ? <Component {...props} /> : <Redirect to="/login" />
-        }
-        {...rest}
-      />
-    )}
-  </AuthConsumer>
+const ProtectedRoute = () => (
+    <Router>
+        <Switch>
+            <Route path="/" component={Dashboard} />
+        </Switch>
+    </Router>
+    
 )
 
 export default ProtectedRoute

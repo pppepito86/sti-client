@@ -5,17 +5,22 @@ const AuthContext = React.createContext()
 class AuthProvider extends React.Component {
 
     constructor() {
-        this.state = {isAuth: this.isAuthenticated()}
+        super();
+        this.state = {isAuth: this.isAuthenticated()};
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     isAuthenticated() {
         return localStorage.hasOwnProperty('isAuth');
     }
 
-    login() {
+    login(username, password) {
+        console.log(username + " " + password);
         setTimeout(() => {
             localStorage.setItem('isAuth', true);
             this.setState({isAuth: this.isAuthenticated()});
+            console.log(this.state.isAuth);
         }, 1000)
     }
 
@@ -28,7 +33,7 @@ class AuthProvider extends React.Component {
         return (
         <AuthContext.Provider
             value={{
-            isAuthenticated: this.isAuthenticated,
+            isAuth: this.state.isAuth,
             login: this.login,
             logout: this.logout
         }}>
@@ -40,4 +45,6 @@ class AuthProvider extends React.Component {
 
 const AuthConsumer = AuthContext.Consumer
 
-export { AuthProvider, AuthConsumer }
+const useAuth = () => React.useContext(AuthContext)
+
+export { AuthProvider, AuthConsumer, useAuth }
