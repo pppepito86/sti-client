@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useAuth } from './AuthContext'
+import {useAuth } from '../AuthContext'
 
 function Login() {
     const [username, setUsername] = useState("");

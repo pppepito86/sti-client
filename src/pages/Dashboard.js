@@ -1,8 +1,8 @@
 import React from 'react'
-import Header from './Header';
-import Sidebar from './Sidebar';
-import Content from './Content';
-import Footer from './Footer';
+import Header from '../components/Header';
+import Sidebar from '../components/Sidebar';
+import Content from '../components/Content';
+import Footer from '../components/Footer';
 
 const Dashboard = () => {
     return (

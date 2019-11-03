@@ -1,5 +1,8 @@
 import React from 'react'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFile, faBook } from '@fortawesome/free-solid-svg-icons'
+
 function Sidebar() {
     return (
         <div>
@@ -13,18 +16,19 @@ function Sidebar() {
         <li>
           
           <a style={{backgroundColor: '#445566'}} href="http://52.59.81.222/user/problem/1">
-            <i className="fa fa-files-o"></i> <span>test</span>
+            <FontAwesomeIcon icon={faFile} /> &nbsp;<span>test</span>
           </a>
         </li>
         
         <li className="header">МЕНЮ</li>
         <li>
           <a href="http://52.59.81.222/user/communication">
-            <i className="fa fa-files-o"></i> <span>Комуникация</span>
+          <FontAwesomeIcon icon={faFile} /> &nbsp;<span>Комуникация</span>
           </a>
         </li>
         <li>
-	        <a target="_blank" href="http://52.59.81.222/docs/en/index.html"><i className="fa fa-book"></i> <span>C++ Документация</span></a>
+	        <a target="_blank" href="http://52.59.81.222/docs/en/index.html">
+            <FontAwesomeIcon icon={faBook} /> &nbsp;<span>C++ Документация</span></a>
         </li>
         
         <li> 
