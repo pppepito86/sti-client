@@ -15,8 +15,16 @@ class AuthProvider extends React.Component {
         return localStorage.hasOwnProperty('isAuth');
     }
 
-    login(username, password) {
-        console.log(username + " " + password);
+    async login(username, password) {
+        const response = await fetch('http://localhost/api/user', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Basic ' + window.btoa(username+':'+password)
+            }
+          });
+          const myJson = await response.json();
+          console.log(JSON.stringify(myJson));
+          
         setTimeout(() => {
             localStorage.setItem('isAuth', true);
             this.setState({isAuth: this.isAuthenticated()});

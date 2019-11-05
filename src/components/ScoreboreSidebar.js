@@ -1,10 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFile, faBook } from '@fortawesome/free-solid-svg-icons'
+import { faFile, faBook, faFiles } from '@fortawesome/free-solid-svg-icons'
 
-function Sidebar() {
+function ScoreboardSidebar() {
     return (
 <aside className="main-sidebar">
     <section className="sidebar" style={{height: 'auto'}}>
@@ -12,14 +11,14 @@ function Sidebar() {
       <ul className="sidebar-menu tree" data-widget="tree">
         <li className="header">ЗАДАЧИ</li>
         <li>
-          <Link to="/task/1" style={{backgroundColor: '#445566'}}>
-            <FontAwesomeIcon icon={faFile} /> &nbsp;<span>task1</span>
-          </Link>
+          <a style={{backgroundColor: '#445566'}} href="/task/1">
+            <FontAwesomeIcon icon={faFile} /> &nbsp;<span>test</span>
+          </a>
         </li>
         <li>
-          <Link to="/task/2" style={{backgroundColor: '#445566'}}>
+          <a style={{backgroundColor: '#445566'}} href="/task/2">
             <FontAwesomeIcon icon={faFile} /> &nbsp;<span>task2</span>
-          </Link>
+          </a>
         </li>
         
         <li className="header">МЕНЮ</li>
@@ -56,4 +55,4 @@ function Sidebar() {
   </aside>)
 }
 
-export default Sidebar
+export default ScoreboardSidebar

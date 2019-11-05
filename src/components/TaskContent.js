@@ -1,7 +1,10 @@
 import React from 'react'
 import Task from './Task';
 
-function Content() {
+class TaskContent extends React.Component {
+
+
+  render() {
     return (
       <div className="content-wrapper" style={{minHeight: '498px'}}>
       <section className="content-header">
@@ -31,7 +34,8 @@ function Content() {
       </section>
 
       </div>
-    )
+    );
+  }
 }
 
-export default Content
+export default TaskContent
