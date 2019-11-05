@@ -1,41 +1,42 @@
 import React from 'react'
 import { useAuth } from '../AuthContext';
+import moment from 'moment'
 
-function TaskDescription() {
-    return (
-            <div className="box">
-                  <div className="box-header with-border">
-                    <h3 className="box-title">Условие</h3>
-                  </div>
-                  <div className="box-body">
-                    <a target="_blank" className="btn btn-info" href="http://52.59.81.222/user/problem/1/pdf?download=false">Отвори</a>
-                 <a style={{marginLeft: '3px'}} target="_blank" className="btn btn-info" href="http://52.59.81.222/user/problem/1/pdf?download=true">Изтегли</a>
-                  </div>
-              </div>
-    )
-}
-
-function TaskLimits() {
+function TaskDescription({tid}) {
   return (
     <div className="box">
-    <div className="box-header with-border">
-      <h3 className="box-title">Ограничения</h3>
+      <div className="box-header with-border">
+        <h3 className="box-title">Условие</h3>
+      </div>
+      <div className="box-body">
+        <a target="_blank" className="btn btn-info" href={`http://localhost/task/${tid}/pdf?download=false`} >Отвори</a>
+        <a style={{marginLeft: '3px'}} target="_blank" className="btn btn-info" href="http://52.59.81.222/user/problem/1/pdf?download=true">Изтегли</a>
+      </div>
     </div>
-    <div className="box-body">
-   <table className="table table-bordered">
+  )
+}
+
+function TaskLimits({time, memory}) {
+  return (
+    <div className="box">
+      <div className="box-header with-border">
+        <h3 className="box-title">Ограничения</h3>
+      </div>
+      <div className="box-body">
+        <table className="table table-bordered">
           <tbody>
-          <tr>
-            <td>Време</td>
-            <td>0.2 s</td>
-          </tr>
-          <tr>
-            <td>Памет</td>
-            <td>256 MB</td>
-          </tr>
-        </tbody>
-      </table>          
+            <tr>
+              <td>Време</td>
+              <td>{time} s</td>
+            </tr>
+            <tr>
+              <td>Памет</td>
+              <td>{memory} MB</td>
+            </tr>
+          </tbody>
+        </table>          
+      </div>
     </div>
-</div>
   )
 }
 
@@ -104,35 +105,37 @@ function TaskSubmit() {
   )
 }
 
-function TaskSubmissions() {
+function TaskSubmissions({ tid, submissions }) {
   return (
     <div className="box">
-    <div className="box-header with-border">
-      <h3 className="box-title">Предадени решения</h3>
-    </div>
-    <div className="box-body">
-   <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th style={{width: '10px'}}>#</th>
-      <th>Час</th>
-              <th>Детайли</th>
-              <th>Точки</th>
-            </tr>
+      <div className="box-header with-border">
+        <h3 className="box-title">Предадени решения{submissions.size}</h3>
+      </div>
+      <div className="box-body">
+      <table className="table table-bordered" style={{tableLayout: 'fixed', wordWrap: 'break-word'}}>
+        <thead>
+          <tr>
+            <th style={{width: '10px'}}>#</th>
+            <th style={{width:'15%'}}>Час</th>
+            <th style={{width:'65%'}}>Детайли</th>
+            <th style={{width:'10%'}}>Точки</th>
+          </tr>
         </thead>
           <tbody>
-            <tr>
-              <td><a href="/task/2/submission/1">1</a></td>
-              <td>03.11.19 14:04:04</td>
-              <td>OK,TL,TL,OK,TL,OK,OK,OK,OK,TL,OK,TL,TL,TL,TL,TL,TL,TL,TL,TL</td>
-              <td>0</td>
-            </tr>
-        </tbody>
-      </table>          
-    </div>
+            {
+              submissions.map((s, i) => {
+                return <tr key={i}>
+                  <td><a href={`/task/${tid}/submission/${submissions.length-i}`}>{submissions.length-i}</a></td>
+                  <td>{moment.unix(s.upload_time/1000).format("DD MMM YYYY hh:mm:ss")}</td>
+                  <td>{s.verdict}</td>
+                  <td>{s.points}</td>
+                </tr>
+            })}
+          </tbody>
+        </table>          
+      </div>
     </div>
   )
 }
-
 
 export default {TaskDescription, TaskLimits, TaskSubmit, TaskSubmissions}

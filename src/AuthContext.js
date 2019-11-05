@@ -6,35 +6,30 @@ class AuthProvider extends React.Component {
 
     constructor() {
         super();
-        this.state = {isAuth: this.isAuthenticated()};
+        this.state = {isAuth: localStorage.hasOwnProperty('token')};
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
     }
 
-    isAuthenticated() {
-        return localStorage.hasOwnProperty('isAuth');
-    }
-
     async login(username, password) {
+        const token = window.btoa(username+':'+password);
         const response = await fetch('http://localhost/api/user', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Basic ' + window.btoa(username+':'+password)
-            }
-          });
-          const myJson = await response.json();
-          console.log(JSON.stringify(myJson));
-          
-        setTimeout(() => {
-            localStorage.setItem('isAuth', true);
-            this.setState({isAuth: this.isAuthenticated()});
-            console.log(this.state.isAuth);
-        }, 1000)
+            headers: {'Authorization': `Basic ${token}`}
+        });
+        const user = await response.json();
+        console.log(JSON.stringify(user));
+        
+        localStorage.setItem("name", user.display_name);
+        localStorage.setItem("contest", user.contest);
+        localStorage.setItem("token", token);
+        this.setState({isAuth: true});
     }
 
     logout() {
-        localStorage.removeItem('isAuth');
-        this.setState({isAuth: this.isAuthenticated()});
+        localStorage.removeItem('display_name');
+        localStorage.removeItem('contest');
+        localStorage.removeItem('token');
+        this.setState({isAuth: false});
     }
 
     render() {
@@ -51,8 +46,6 @@ class AuthProvider extends React.Component {
     }
 }
 
-const AuthConsumer = AuthContext.Consumer
-
 const useAuth = () => React.useContext(AuthContext)
 
-export { AuthProvider, AuthConsumer, useAuth }
+export { AuthProvider, useAuth }

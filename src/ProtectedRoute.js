@@ -11,7 +11,6 @@ const ProtectedRoute = () => (
             <Route path="/scoreboard/:gid" component={ScoreboardPage} />
             <Route path="/task/:tid(\d+)/submission/:sid(\d+)" component={SubmissionPage} />
             <Route path="/task/:tid(\d+)" component={Dashboard} />
-            <Route path="/" component={Dashboard} />
 
             <Route render={() => <Redirect to="/task/1" />} />
         </Switch>

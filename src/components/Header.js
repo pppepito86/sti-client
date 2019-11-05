@@ -19,7 +19,8 @@ function Header() {
         <span className="sr-only">Toggle navigation</span>
       </a>
 
-	  <div className="logo" style={{width: 'auto', backgroundColor: 'rgba(255, 255, 255, 0)'}}>Иван Иванов Фурнаджиев, E група
+	  <div className="logo" style={{width: 'auto', backgroundColor: 'rgba(255, 255, 255, 0)'}}>
+      {localStorage.getItem("name")}, {localStorage.getItem("contest")} група
     </div>
 
       <div className="navbar-custom-menu">

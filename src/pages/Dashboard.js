@@ -6,16 +6,6 @@ import Footer from '../components/Footer';
 
 class Dashboard extends React.Component {
 
-    componentDidMount() {
-        console.log("mounted");
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log("hereeee");
-        console.log(this.props === nextProps);
-        return false;
-    }
-
     render() {
         return (
             <div className="wrapper" style={{height: 'auto', minHeight: '100%'}}>

@@ -1,29 +1,80 @@
 import React from 'react'
+import moment from 'moment'
 
-function SubmissionOverview() {
-    return (
-      <div className="box-body">
+function SubmissionOverview({submission}) {
+  return (
+    <div className="box-body">
       <table style={{tableLayout: 'fixed', wordWrap: 'break-word'}} className="table table-bordered">
-         <tbody><tr>
-           <th>Час</th>
-           <th>Група</th>
-           <th>Задача</th>
-           <th>Точки</th>
-           <th style={{width: '50%'}}>Статус</th>
+        <tbody><tr>
+          <th style={{width: '15%'}}>Час</th>
+          <th style={{width: '10%'}}>Група</th>
+          <th style={{width: '10%'}}>Задача</th>
+          <th style={{width: '10%'}}>Точки</th>
+          <th style={{width: '55%'}}>Статус</th>
+        </tr>
+        <tr>
+          <td>{moment.unix(submission.upload_time/1000).format("DD MMM YYYY hh:mm:ss")}</td>
+          <td>{submission.contest}</td>
+          <td>{submission.name}</td>
+          <td>{submission.points}</td>
+          <td>{submission.verdict}</td>
          </tr>
-         <tr>
-           <td>03.11.19 14:04:04</td>
-           <td>C</td>
-           <td>words</td>
-           <td>0</td>
-           <td>OK,TL,TL,OK,TL,OK,OK,OK,OK,TL,OK,TL,TL,TL,TL,TL,TL,TL,TL,TL</td>
-         </tr>
-       </tbody></table>
-     </div>
-    )
+       </tbody>
+      </table>
+    </div>
+  )
 }
 
-function SubmissionDetails() {
+function NoGroupScore({tests}) {
+  return (
+    <div className="box-body">
+    <table style={{tableLayout: 'fixed', wordWrap: 'break-word'}} className="table table-bordered table-striped">
+      <tbody>
+        <tr>
+          <th>Стъпка</th>
+          <th>Резултат</th>
+          <th>Време</th>
+        </tr>
+
+        <tr>
+          <td>Група 1</td>
+          <td style={{backgroundColor: '#ff0000'}}></td>
+          <td></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+function SubmissionDetails({tests}) {
+  console.log(tests);
+  return (
+    <div className="box-body">
+    <table style={{tableLayout: 'fixed', wordWrap: 'break-word'}} className="table table-bordered table-striped">
+      <tbody>
+        <tr>
+          <th>Стъпка</th>
+          <th>Резултат</th>
+          <th>Време</th>
+        </tr>
+        {
+          tests.map((test, i) => {
+            const color = test.verdict==='OK'?'#00FF00':'#ff0000';
+            return <tr key={i}>
+              <td>{test.name.replace('Test', 'Тест ')}</td>
+              <td style={{backgroundColor: color}}>{test.verdict}</td>
+              <td>{test.time}</td>
+            </tr>
+        })}
+      </tbody>
+    </table>
+  </div>
+  )
+}
+
+function SubmissionDetails2({steps}) {
+  console.log(steps);
   return (
     <div className="box-body">
     <table style={{tableLayout: 'fixed', wordWrap: 'break-word'}} className="table table-bordered table-striped">
@@ -32,6 +83,7 @@ function SubmissionDetails() {
         <th>Резултат</th>
         <th>Време</th>
       </tr>
+
       <tr>
         <td>Група 1</td>
         <td style={{backgroundColor: '#ff0000'}}></td>
@@ -112,52 +164,9 @@ function SubmissionDetails() {
   )
 }
 
-function SubmissionSource() {
+function SubmissionSource({source}) {
   return (
-    <pre>{`#include&lt;bits/stdc++.h&gt;
-    //#define endl '\n'
-    using namespace std;
-    
-    bool m[100001];
-    
-    bool match(const string&amp; s, const string&amp; w, int start) {
-        for (int i = 0; i &lt; w.size(); i++) {
-            if (start+i &gt;= s.size()) return false;
-            if (w[i] != s[start+i]) return false;
-        }
-        return true;
-    }
-    
-    void matches(const string&amp; s, const string&amp; w) {
-        for (int i = 0; i &lt; s.size(); i++) {
-            m[i+1] = match(s,w,i);
-        }
-    }
-    
-    int main() {
-        ios_base::sync_with_stdio(false);
-        cin.tie(NULL);
-    
-        string s, w; cin &gt;&gt; s &gt;&gt; w;
-        matches(s, w);
-    
-        int q; cin &gt;&gt; q;
-        while (q--) {
-            int a, b; cin &gt;&gt; a &gt;&gt; b;
-            long long ans = 0;
-            for (int i = a; i+2*w.size()-1 &lt;= b; i++) {
-                if (!m[i]) continue;
-                for (int j = i+w.size(); j+w.size()-1 &lt;= b; j++) {
-                    if (m[j]) ans++;
-                }
-    
-            }
-            cout &lt;&lt; ans &lt;&lt; endl;
-        }
-    
-        return 0;
-    }
-    `}</pre>
+    <pre>{source}</pre>
   )
 }
 
