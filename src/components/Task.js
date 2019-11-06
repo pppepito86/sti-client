@@ -26,9 +26,7 @@ async function sendBlobRequest(url) {
   return await response.blob();
 }
 
-async function download(e, tid) {
-  e.preventDefault();
-
+async function download(tid) {
   const name = (await sendJsonRequest(`tasks/${tid}`)).name;
 
   const data = await sendBlobRequest(`tasks/${tid}/pdf`);
@@ -45,7 +43,7 @@ function TaskDescription({tid}) {
       </div>
       <div className="box-body">
         <Link to={`/task/${tid}/pdf`} className="btn btn-info" >Отвори</Link>
-        <Link onClick={(e)=>download(e, tid)} to={`/task/${tid}/pdf`} style={{marginLeft: '3px'}} className="btn btn-info">Изтегли</Link>
+        <button onClick={()=>download(tid)} to={`/task/${tid}/pdf`} style={{marginLeft: '3px'}} className="btn btn-info">Изтегли</button>
       </div>
     </div>
   )
