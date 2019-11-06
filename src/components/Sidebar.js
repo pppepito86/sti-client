@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-//import { useParams} from "react-router";
+import { useParams} from "react-router";
 import { Link } from 'react-router-dom';
 import Countdown from 'react-countdown-now';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFile, faBook } from '@fortawesome/free-solid-svg-icons'
-
-import moment from 'moment'
 
 async function sendRequest(url) {
   const token = localStorage.getItem("token");
@@ -16,8 +14,8 @@ async function sendRequest(url) {
   return await response.json();
 }
 
-function Sidebar() {
-  //const { tid } = useParams();
+const Sidebar = () => {
+  const { tid } = useParams();
   const [tasks, setTasks] = useState([]);
   const [time, setTime] = useState();
 
@@ -27,25 +25,22 @@ function Sidebar() {
       
       const currentTime = Date.now();
       const data = await sendRequest(`/time`);
-      console.log(currentTime+data.timeTillStart);
       setTime({
         startTime: currentTime+data.timeTillStart,
         endTime: currentTime+data.timeTillEnd
       });
-//      console.log(time.startTime + " " + time.endTime);
     };
     fetchData();
   }, []);
-
     return (
 <aside className="main-sidebar">
-    <section className="sidebar" style={{height: 'auto'}}>
+    <section className="sidebar">
 
       <ul className="sidebar-menu tree" data-widget="tree">
         <li className="header">ЗАДАЧИ</li>
         {tasks.map((t) => {
-          return <li key={t.number}>
-            <Link to={`/task/${t.number}`} style={{backgroundColor: '#445566'}}>
+          return <li key={t.number} className={t.number+""===tid?'active':''}>
+            <Link to={`/task/${t.number}`}>
               <FontAwesomeIcon icon={faFile} /> &nbsp;<span>{t.name}</span>
             </Link>
           </li>
@@ -64,7 +59,7 @@ function Sidebar() {
         {time &&
         <li> 
         	<div id="timer" style={{color: '#b8c7ce', textAlign: 'center'}}>
-            <Countdown date={moment(time.endTime).add(2, 'days')} daysInHours={true} >
+            <Countdown date={time.endTime} daysInHours={true} >
               <span>Състезанието приключи</span>
             </Countdown>
           </div> 

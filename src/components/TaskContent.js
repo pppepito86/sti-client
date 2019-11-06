@@ -21,7 +21,6 @@ const TaskContent = () => {
       setIsLoading(true);
 
       const data = await sendRequest(`tasks/${tid}`);
-      console.log(data);
       setTask(data);
       
       setIsLoading(false);
@@ -36,12 +35,12 @@ const TaskContent = () => {
     <div className="content-wrapper">
       <section className="content-header" style={{display: 'flex', justifyContent: 'space-between'}}>
         <h1 style={{display: 'inline-block', verticalAlign: 'top'}}>Задача {tid} - <b>{task.name}</b></h1>
-        <div class="progress-group" style={{display: 'inline-block', height: '26px', verticalAlign: 'top', width: '48.5%'}}>
-          <span class="progress-text">Точки</span>
-          <span class="progress-number"><b>0</b>/100</span>
+        <div className="progress-group" style={{display: 'inline-block', height: '26px', verticalAlign: 'top', width: '48.5%'}}>
+          <span className="progress-text">Точки</span>
+          <span className="progress-number"><b>0</b>/100</span>
 
-          <div class="progress sm">
-            <div class="progress-bar progress-bar-aqua" style={{width: '0%'}}></div>
+          <div className="progress sm">
+            <div className="progress-bar progress-bar-aqua" style={{width: '0%'}}></div>
           </div>
         </div>
       </section>

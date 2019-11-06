@@ -1,25 +1,18 @@
 import React from 'react'
 import { BrowserRouter as Router, Route,  Switch, Redirect } from 'react-router-dom'
-import ScoreboardPage from './pages/ScoreboardPage'
 import PageTemplate from './pages/PageTemplate'
-import TaskContent from './components/TaskContent'
-import SubmissionContent from './components/SubmissionContent'
-import PdfContent from './components/PdfContent'
-import DashboardContent from './components/DashboardContent'
 
 export default () => (
     <Router>
-        <PageTemplate>
-            <Switch>
-                <Route path="/task/:tid(\d+)/submission/:sid(\d+)" component={SubmissionContent} />
-                <Route path="/task/:tid(\d+)/pdf" component={PdfContent} />
-                <Route path="/task/:tid(\d+)" component={TaskContent} />
-                <Route path="/scoreboard/:gid" component={ScoreboardPage} />
-                <Route path="/" component={DashboardContent} />
-                
-                <Route render={() => <Redirect to="/task/1" />} />    
-            </Switch>
-        </PageTemplate>
+        <Switch>
+            <Route path="/task/:tid(\d+)/submission/:sid(\d+)" render={() => <PageTemplate content="submission"/>}/>
+            <Route path="/task/:tid(\d+)/pdf" render={() => <PageTemplate content="pdf"/>}/>
+            <Route path="/task/:tid(\d+)" render={() => <PageTemplate content="task"/>}/>
+            <Route path="/scoreboard/:gid" render={() => <PageTemplate content="scoreboard"/>}/>
+            <Route path="/" render={() => <PageTemplate content="dashboard"/>}/>
+            
+            <Route render={() => <Redirect to="/task/1" />} />    
+        </Switch>
     </Router>
     
 );

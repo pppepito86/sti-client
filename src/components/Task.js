@@ -85,7 +85,7 @@ function TaskSubmit() {
       <div className="tab-pane active" id="file-upload" style={{position: 'relative'}}>
 
       <div className="box-body">
-    <form role="form" method="post" encType="multipart/form-data" action="http://52.59.81.222/user/submit-file">
+    <form method="post" encType="multipart/form-data" action="http://52.59.81.222/user/submit-file">
           <div className="box-body">
             
              <input type="hidden" className="form-control" name="problemNumber" id="problemNumber" value="1" />
@@ -111,7 +111,7 @@ function TaskSubmit() {
       <div className="tab-pane" id="source-upload" style={{position: 'relative', height: 'auto'}}>
 
       <div className="box-body">
-    <form role="form" method="post" action="http://52.59.81.222/user/submit-code">
+    <form method="post" action="http://52.59.81.222/user/submit-code">
           <div className="box-body">
             
             <input type="hidden" className="form-control" name="problemNumber" id="problemNumber" value="1" />
