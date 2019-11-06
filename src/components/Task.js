@@ -2,7 +2,39 @@ import React from 'react'
 import {Link} from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import moment from 'moment'
-import {openPdfInNewTab, downloadPdf} from '../pdfUtil.js';
+var FileSaver = require('file-saver');
+
+async function sendJsonRequest(url) {
+  const token = localStorage.getItem("token");
+  const response = await fetch('http://localhost/api/'+url, {
+    headers: {
+      'Authorization': `Basic ${token}`
+    },
+    responseType: 'arraybuffer'
+  });
+  return await response.json();
+}
+
+async function sendBlobRequest(url) {
+  const token = localStorage.getItem("token");
+  const response = await fetch('http://localhost/api/'+url, {
+    headers: {
+      'Authorization': `Basic ${token}`
+    },
+    responseType: 'arraybuffer'
+  });
+  return await response.blob();
+}
+
+async function download(e, tid) {
+  e.preventDefault();
+
+  const name = (await sendJsonRequest(`tasks/${tid}`)).name;
+
+  const data = await sendBlobRequest(`tasks/${tid}/pdf`);
+  const pdf = new Blob([data],{type: 'application/pdf'});
+  FileSaver.saveAs(pdf, `p${tid}-${name}.pdf`);
+}
 
 function TaskDescription({tid}) {
 
@@ -13,7 +45,7 @@ function TaskDescription({tid}) {
       </div>
       <div className="box-body">
         <Link to={`/task/${tid}/pdf`} className="btn btn-info" >Отвори</Link>
-        <a style={{marginLeft: '3px'}} target="_blank" className="btn btn-info" href="http://52.59.81.222/user/problem/1/pdf?download=true">Изтегли</a>
+        <Link onClick={(e)=>download(e, tid)} to={`/task/${tid}/pdf`} style={{marginLeft: '3px'}} className="btn btn-info">Изтегли</Link>
       </div>
     </div>
   )
