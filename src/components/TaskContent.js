@@ -30,17 +30,18 @@ const TaskContent = () => {
   }, [tid]);
 
   if (isLoading) return <LoadingContent />
-  
+
+  const points = task.submissions.reduce((prev, current) => Math.max(prev, current.points), 0);
   return (
     <div className="content-wrapper">
       <section className="content-header" style={{display: 'flex', justifyContent: 'space-between'}}>
         <h1 style={{display: 'inline-block', verticalAlign: 'top'}}>Задача {tid} - <b>{task.name}</b></h1>
         <div className="progress-group" style={{display: 'inline-block', height: '26px', verticalAlign: 'top', width: '48.5%'}}>
           <span className="progress-text">Точки</span>
-          <span className="progress-number"><b>0</b>/100</span>
+          <span className="progress-number"><b>{points}</b>/100</span>
 
           <div className="progress sm">
-            <div className="progress-bar progress-bar-aqua" style={{width: '0%'}}></div>
+            <div className="progress-bar progress-bar-aqua" style={{width: points+'%'}}></div>
           </div>
         </div>
       </section>
