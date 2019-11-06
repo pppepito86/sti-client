@@ -32,7 +32,7 @@ function SubmissionContent() {
   if (isLoading) return <LoadingContent />
 
   return (
-    <div className="content-wrapper" style={{minHeight: '547px'}}>
+    <div className="content-wrapper">
       <section className="content-header">
         <h1>
           Решение

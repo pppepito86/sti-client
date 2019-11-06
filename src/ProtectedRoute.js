@@ -5,8 +5,9 @@ import PageTemplate from './pages/PageTemplate'
 import TaskContent from './components/TaskContent'
 import SubmissionContent from './components/SubmissionContent'
 import PdfContent from './components/PdfContent'
+import DashboardContent from './components/DashboardContent'
 
-const ProtectedRoute = () => (
+export default () => (
     <Router>
         <PageTemplate>
             <Switch>
@@ -14,12 +15,13 @@ const ProtectedRoute = () => (
                 <Route path="/task/:tid(\d+)/pdf" component={PdfContent} />
                 <Route path="/task/:tid(\d+)" component={TaskContent} />
                 <Route path="/scoreboard/:gid" component={ScoreboardPage} />
+                <Route path="/" component={DashboardContent} />
                 
                 <Route render={() => <Redirect to="/task/1" />} />    
             </Switch>
         </PageTemplate>
     </Router>
     
-)
+);
 
-export default ProtectedRoute
+export {};

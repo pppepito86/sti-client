@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 class PageTemplate extends React.Component {
     render() {
         return (
-            <div className="wrapper" style={{height: 'auto', minHeight: '100%'}}>
+            <div className="wrapper">
                 <Header />
                 <Sidebar />
                 {this.props.children}
