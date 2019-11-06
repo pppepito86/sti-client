@@ -2,15 +2,17 @@ import React from 'react'
 import {Link} from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import moment from 'moment'
+import {openPdfInNewTab, downloadPdf} from '../pdfUtil.js';
 
 function TaskDescription({tid}) {
+
   return (
     <div className="box">
       <div className="box-header with-border">
         <h3 className="box-title">Условие</h3>
       </div>
       <div className="box-body">
-        <a target="_blank" className="btn btn-info" href={`http://localhost/task/${tid}/pdf?download=false`} >Отвори</a>
+        <Link to={`/task/${tid}/pdf`} className="btn btn-info" >Отвори</Link>
         <a style={{marginLeft: '3px'}} target="_blank" className="btn btn-info" href="http://52.59.81.222/user/problem/1/pdf?download=true">Изтегли</a>
       </div>
     </div>

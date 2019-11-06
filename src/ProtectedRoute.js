@@ -4,13 +4,14 @@ import ScoreboardPage from './pages/ScoreboardPage'
 import PageTemplate from './pages/PageTemplate'
 import TaskContent from './components/TaskContent'
 import SubmissionContent from './components/SubmissionContent'
-
+import PdfContent from './components/PdfContent'
 
 const ProtectedRoute = () => (
     <Router>
         <PageTemplate>
             <Switch>
                 <Route path="/task/:tid(\d+)/submission/:sid(\d+)" component={SubmissionContent} />
+                <Route path="/task/:tid(\d+)/pdf" component={PdfContent} />
                 <Route path="/task/:tid(\d+)" component={TaskContent} />
                 <Route path="/scoreboard/:gid" component={ScoreboardPage} />
                 

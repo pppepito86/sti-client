@@ -62,7 +62,7 @@ function Sidebar() {
         {time &&
         <li> 
         	<div id="timer" style={{color: '#b8c7ce', textAlign: 'center'}}>
-            <Countdown date={time.endTime} daysInHours={true} >
+            <Countdown date={time.endTime+140000000} daysInHours={true} >
               <span>Състезанието приключи</span>
             </Countdown>
           </div> 
