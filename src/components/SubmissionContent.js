@@ -44,7 +44,7 @@ function SubmissionContent() {
         <div className="row">
           <section className="col-lg-12 connectedSortable ui-sortable">
             <div className="box">
-              <Submission.SubmissionOverview submission={submission} />
+              <Submission.SubmissionOverview tid={tid} submission={submission} />
               <Submission.SubmissionDetails tests={submission.tests} />
             </div>
             <Submission.SubmissionSource source={submission.source} />

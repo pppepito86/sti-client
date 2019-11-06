@@ -1,25 +1,27 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import moment from 'moment'
 
-function SubmissionOverview({submission}) {
+function SubmissionOverview({tid, submission}) {
   return (
     <div className="box-body">
       <table style={{tableLayout: 'fixed', wordWrap: 'break-word'}} className="table table-bordered">
-        <tbody><tr>
-          <th style={{width: '15%'}}>Час</th>
-          <th style={{width: '10%'}}>Група</th>
-          <th style={{width: '10%'}}>Задача</th>
-          <th style={{width: '10%'}}>Точки</th>
-          <th style={{width: '55%'}}>Статус</th>
-        </tr>
-        <tr>
-          <td>{moment.unix(submission.upload_time/1000).format("DD MMM YYYY hh:mm:ss")}</td>
-          <td>{submission.contest}</td>
-          <td>{submission.name}</td>
-          <td>{submission.points}</td>
-          <td>{submission.verdict}</td>
-         </tr>
-       </tbody>
+        <tbody>
+          <tr>
+            <th style={{width: '15%'}}>Час</th>
+            <th style={{width: '10%'}}>Група</th>
+            <th style={{width: '10%'}}>Задача</th>
+            <th style={{width: '10%'}}>Точки</th>
+            <th style={{width: '55%'}}>Статус</th>
+          </tr>
+          <tr>
+            <td>{moment.unix(submission.upload_time/1000).format("DD MMM YYYY hh:mm:ss")}</td>
+            <td>{submission.contest}</td>
+            <td><Link to={`/task/${tid}`} >{submission.name}</Link></td>
+            <td>{submission.points}</td>
+            <td>{submission.verdict}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   )

@@ -6,6 +6,8 @@ import Countdown from 'react-countdown-now';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFile, faBook } from '@fortawesome/free-solid-svg-icons'
 
+import moment from 'moment'
+
 async function sendRequest(url) {
   const token = localStorage.getItem("token");
   const response = await fetch('http://localhost/api/'+url, {
@@ -62,7 +64,7 @@ function Sidebar() {
         {time &&
         <li> 
         	<div id="timer" style={{color: '#b8c7ce', textAlign: 'center'}}>
-            <Countdown date={time.endTime+140000000} daysInHours={true} >
+            <Countdown date={moment(time.endTime).add(2, 'days')} daysInHours={true} >
               <span>Състезанието приключи</span>
             </Countdown>
           </div> 
