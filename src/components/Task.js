@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import moment from 'moment'
 
@@ -125,7 +126,7 @@ function TaskSubmissions({ tid, submissions }) {
             {
               submissions.map((s, i) => {
                 return <tr key={i}>
-                  <td><a href={`/task/${tid}/submission/${submissions.length-i}`}>{submissions.length-i}</a></td>
+                  <td><Link to={`/task/${tid}/submission/${submissions.length-i}`}>{submissions.length-i}</Link></td>
                   <td>{moment.unix(s.upload_time/1000).format("DD MMM YYYY hh:mm:ss")}</td>
                   <td>{s.verdict}</td>
                   <td>{s.points}</td>

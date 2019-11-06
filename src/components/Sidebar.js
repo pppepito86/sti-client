@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams} from "react-router";
+//import { useParams} from "react-router";
 import { Link } from 'react-router-dom';
 import Countdown from 'react-countdown-now';
 
@@ -15,7 +15,7 @@ async function sendRequest(url) {
 }
 
 function Sidebar() {
-  const { tid } = useParams();
+  //const { tid } = useParams();
   const [tasks, setTasks] = useState([]);
   const [time, setTime] = useState();
 
@@ -62,7 +62,7 @@ function Sidebar() {
         {time &&
         <li> 
         	<div id="timer" style={{color: '#b8c7ce', textAlign: 'center'}}>
-            <Countdown date={time.endTime+135000000} daysInHours={true} >
+            <Countdown date={time.endTime} daysInHours={true} >
               <span>Състезанието приключи</span>
             </Countdown>
           </div> 
