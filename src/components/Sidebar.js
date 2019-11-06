@@ -17,12 +17,20 @@ async function sendRequest(url) {
 function Sidebar() {
   const { tid } = useParams();
   const [tasks, setTasks] = useState([]);
+  const [time, setTime] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await sendRequest(`/tasks`);
-      console.log(data);
-      setTasks(data);
+      setTasks(await sendRequest(`/tasks`));
+      
+      const currentTime = Date.now();
+      const data = await sendRequest(`/time`);
+      console.log(currentTime+data.timeTillStart);
+      setTime({
+        startTime: currentTime+data.timeTillStart,
+        endTime: currentTime+data.timeTillEnd
+      });
+//      console.log(time.startTime + " " + time.endTime);
     };
     fetchData();
   }, []);
@@ -51,17 +59,16 @@ function Sidebar() {
             <FontAwesomeIcon icon={faBook} /> &nbsp;<span>C++ Документация</span></a>
         </li>
         
+        {time &&
         <li> 
         	<div id="timer" style={{color: '#b8c7ce', textAlign: 'center'}}>
-            <Countdown date={Date.now() + 20000} daysInHours="true">
+            <Countdown date={time.endTime+135000000} daysInHours={true} >
               <span>Състезанието приключи</span>
             </Countdown>
           </div> 
         </li>
+        }
       </ul>
-
-
-
     </section>
 
     	
