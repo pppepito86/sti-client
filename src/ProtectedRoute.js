@@ -8,15 +8,15 @@ import SubmissionContent from './components/SubmissionContent'
 
 const ProtectedRoute = () => (
     <Router>
-        <Switch>
-            <PageTemplate>
-                <Route path="/scoreboard/:gid" component={ScoreboardPage} />
+        <PageTemplate>
+            <Switch>
                 <Route path="/task/:tid(\d+)/submission/:sid(\d+)" component={SubmissionContent} />
                 <Route path="/task/:tid(\d+)" component={TaskContent} />
-
-                <Route render={() => <Redirect to="/task/1" />} />
-            </PageTemplate>
-        </Switch>
+                <Route path="/scoreboard/:gid" component={ScoreboardPage} />
+                
+                <Route render={() => <Redirect to="/task/1" />} />    
+            </Switch>
+        </PageTemplate>
     </Router>
     
 )
