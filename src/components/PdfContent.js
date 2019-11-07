@@ -1,17 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams} from "react-router";
+import { useParams } from "react-router";
 import LoadingContent from './LoadingContent';
-
-async function sendRequest(url) {
-  const token = localStorage.getItem("token");
-  const response = await fetch('http://localhost/api/'+url, {
-    headers: {
-      'Authorization': `Basic ${token}`
-    },
-    responseType: 'arraybuffer'
-  });
-  return await response.blob();
-}
+import { blob } from '../rest'
 
 const PdfContent = () => {
   const {tid} = useParams();
@@ -22,7 +12,7 @@ const PdfContent = () => {
     const fetchData = async () => {
       setIsLoading(true);
 
-      const data = await sendRequest(`tasks/${tid}/pdf`);
+      const data = await blob(`tasks/${tid}/pdf`);
       const pdf = URL.createObjectURL(data);
       setPdf(pdf);
       

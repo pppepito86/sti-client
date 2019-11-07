@@ -2,14 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams} from "react-router";
 import Task from './Task';
 import LoadingContent from './LoadingContent';
-
-async function sendRequest(url) {
-  const token = localStorage.getItem("token");
-  const response = await fetch('http://localhost/api/'+url, {
-    headers: {'Authorization': `Basic ${token}`}
-  });
-  return await response.json();
-}
+import {json} from '../rest'
 
 const TaskContent = () => {
   const {tid} = useParams();
@@ -20,7 +13,7 @@ const TaskContent = () => {
     const fetchData = async () => {
       setIsLoading(true);
 
-      const data = await sendRequest(`tasks/${tid}`);
+      const data = await json(`tasks/${tid}`);
       setTask(data);
       
       setIsLoading(false);

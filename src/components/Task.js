@@ -2,40 +2,18 @@ import React from 'react'
 import {Link} from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import moment from 'moment'
+import {json, blob} from '../rest'
+
 var FileSaver = require('file-saver');
 
-async function sendJsonRequest(url) {
-  const token = localStorage.getItem("token");
-  const response = await fetch('http://localhost/api/'+url, {
-    headers: {
-      'Authorization': `Basic ${token}`
-    },
-    responseType: 'arraybuffer'
-  });
-  return await response.json();
-}
-
-async function sendBlobRequest(url) {
-  const token = localStorage.getItem("token");
-  const response = await fetch('http://localhost/api/'+url, {
-    headers: {
-      'Authorization': `Basic ${token}`
-    },
-    responseType: 'arraybuffer'
-  });
-  return await response.blob();
-}
-
 async function download(tid) {
-  const name = (await sendJsonRequest(`tasks/${tid}`)).name;
-
-  const data = await sendBlobRequest(`tasks/${tid}/pdf`);
+  const name = (await json(`tasks/${tid}`)).name;
+  const data = await blob(`tasks/${tid}/pdf`);
   const pdf = new Blob([data],{type: 'application/pdf'});
   FileSaver.saveAs(pdf, `p${tid}-${name}.pdf`);
 }
 
 function TaskDescription({tid}) {
-
   return (
     <div className="box">
       <div className="box-header with-border">

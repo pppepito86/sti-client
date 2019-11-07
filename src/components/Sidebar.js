@@ -2,17 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useParams} from "react-router";
 import { Link } from 'react-router-dom';
 import Countdown from 'react-countdown-now';
+import {json} from '../rest'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFile, faBook } from '@fortawesome/free-solid-svg-icons'
-
-async function sendRequest(url) {
-  const token = localStorage.getItem("token");
-  const response = await fetch('http://localhost/api/'+url, {
-      headers: {'Authorization': `Basic ${token}`}
-  });
-  return await response.json();
-}
 
 const Sidebar = () => {
   const { tid } = useParams();
@@ -21,10 +14,10 @@ const Sidebar = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setTasks(await sendRequest(`/tasks`));
+      setTasks(await json(`/tasks`));
       
       const currentTime = Date.now();
-      const data = await sendRequest(`/time`);
+      const data = await json(`/time`);
       setTime({
         startTime: currentTime+data.timeTillStart,
         endTime: currentTime+data.timeTillEnd
