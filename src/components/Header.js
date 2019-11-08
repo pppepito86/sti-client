@@ -24,10 +24,10 @@ function Header() {
       <div className="navbar-custom-menu">
         <ul className="nav navbar-nav">
           <li>
-            <Link to="/"><FontAwesomeIcon icon={faEnvelope} /><span class="label label-success">3</span></Link>
+            <Link to="/"><FontAwesomeIcon icon={faEnvelope} /><span className="label label-success">3</span></Link>
           </li>
           <li>
-            <Link to="/"><FontAwesomeIcon icon={faBell} /><span class="label label-success">1</span></Link>
+            <Link to="/"><FontAwesomeIcon icon={faBell} /><span className="label label-success">1</span></Link>
           </li>
           <li>
             <a href="/" onClick={useAuth().logout}><FontAwesomeIcon icon={faSignOutAlt} /></a>

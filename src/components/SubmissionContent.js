@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from "react-router";
 import Submission from './Submission';
 import LoadingContent from './LoadingContent';
 import useAsync from '../useAsync'
+import useInterval from '../useInterval'
 import { json } from '../rest'
 
 function SubmissionContent() {
   const { tid, sid } = useParams();
-  const { value: submission, loading } = useAsync(json, `tasks/${tid}/solutions/${sid}`, [tid, sid]);
+  const [refresh, setRefresh] = useState(0);
+  const { value: submission } = useAsync(json, `tasks/${tid}/solutions/${sid}`, [tid, sid, refresh]);
 
-  if (loading) return <LoadingContent />
+  useInterval(() => {
+    setRefresh(refresh+1);
+  }, !submission || !submission.points ? 2000 : null);
+
+  if (!submission) return <LoadingContent />
 
   return (
     <div className="content-wrapper">
