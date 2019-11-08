@@ -1,28 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams } from "react-router";
 import LoadingContent from './LoadingContent';
 import { blob } from '../rest'
+import useAsync from '../useAsync'
 
 const PdfContent = () => {
   const {tid} = useParams();
-  const [isLoading, setIsLoading] = useState(false);
-  const [pdf, setPdf] = useState();
+  const {value, loading} = useAsync(blob, `tasks/${tid}/pdf`, [tid]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
+  if (loading) return <LoadingContent />
 
-      const data = await blob(`tasks/${tid}/pdf`);
-      const pdf = URL.createObjectURL(data);
-      setPdf(pdf);
-      
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, [tid]);
-
-  if (isLoading) return <LoadingContent />
+  const pdf = URL.createObjectURL(value);
 
   return (
     <div className="content-wrapper" style={{minHeight: '498px'}}>

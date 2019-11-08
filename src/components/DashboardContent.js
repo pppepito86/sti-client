@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useParams} from "react-router";
-import Task from './Task';
-import LoadingContent from './LoadingContent';
+import React from 'react';
+
 
 const DashboardContent = () => {  
   return (

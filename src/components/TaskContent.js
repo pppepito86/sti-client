@@ -1,28 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams} from "react-router";
 import Task from './Task';
 import LoadingContent from './LoadingContent';
 import {json} from '../rest'
+import useAsync from '../useAsync'
 
 const TaskContent = () => {
   const {tid} = useParams();
-  const [isLoading, setIsLoading] = useState(false);
-  const [task, setTask] = useState({submissions: []});
+  const {value: task, loading} = useAsync(json, `tasks/${tid}`, [tid]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
-      const data = await json(`tasks/${tid}`);
-      setTask(data);
-      
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, [tid]);
-
-  if (isLoading) return <LoadingContent />
+  if (loading) return <LoadingContent />
 
   const points = task.submissions.reduce((prev, current) => Math.max(prev, current.points), 0);
   return (

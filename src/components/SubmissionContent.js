@@ -1,28 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams} from "react-router";
 import Submission from './Submission';
 import LoadingContent from './LoadingContent';
+import useAsync from '../useAsync'
 import {json} from '../rest'
 
 function SubmissionContent() {
   const {tid, sid} = useParams();
-  const [isLoading, setIsLoading] = useState(false);
-  const [submission, setSubmission] = useState({tests:[], source:''});
+  const {value: submission, loading} = useAsync(json, `tasks/${tid}/solutions/${sid}`, [tid, sid]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-
-      const data = await json(`tasks/${tid}/solutions/${sid}`);
-      console.log(data);
-      setSubmission(data);
-    
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [tid, sid]);
-
-  if (isLoading) return <LoadingContent />
+  if (loading) return <LoadingContent />
 
   return (
     <div className="content-wrapper">
