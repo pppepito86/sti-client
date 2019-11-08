@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useParams} from "react-router";
+import { useState, useEffect } from 'react';
 
 function useAsync(getMethod, url, params) {
     const [value, setValue] = useState(null);

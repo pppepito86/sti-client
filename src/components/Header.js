@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import { useAuth } from '../AuthContext';
-//import { useAuth } from './AuthContext';
 
 function Header() {
-    //const logout = useAuth().logout;
     return (
 <header className="main-header">
     <Link to="/task/1" className="logo">
@@ -14,7 +12,7 @@ function Header() {
       <span className="logo-lg">ЛТИ</span>
     </Link>
     <nav className="navbar navbar-static-top">
-      <a href="http://52.59.81.222/user/problem/1#" className="sidebar-toggle" data-toggle="push-menu" role="button">
+      <a href="/" className="sidebar-toggle" data-toggle="push-menu" role="button">
       <FontAwesomeIcon  icon={faBars} />
         <span className="sr-only">Toggle navigation</span>
       </a>
@@ -26,7 +24,7 @@ function Header() {
       <div className="navbar-custom-menu">
         <ul className="nav navbar-nav">
         <li>
-            <a href="#" onClick={useAuth().logout}> <FontAwesomeIcon  icon={faSignOutAlt} /></a>
+            <a href="/" onClick={useAuth().logout}><FontAwesomeIcon  icon={faSignOutAlt} /></a>
           </li>
         </ul>
       </div>

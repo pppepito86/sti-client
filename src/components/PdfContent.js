@@ -5,17 +5,17 @@ import { blob } from '../rest'
 import useAsync from '../useAsync'
 
 const PdfContent = () => {
-  const {tid} = useParams();
-  const {value, loading} = useAsync(blob, `tasks/${tid}/pdf`, [tid]);
+  const { tid } = useParams();
+  const { value, loading } = useAsync(blob, `tasks/${tid}/pdf`, [tid]);
 
   if (loading) return <LoadingContent />
 
   const pdf = URL.createObjectURL(value);
 
   return (
-    <div className="content-wrapper" style={{minHeight: '498px'}}>
+    <div className="content-wrapper" style={{ minHeight: '498px' }}>
       <content>
-      <object width='100%' height='530' data={pdf} type='application/pdf'></object>
+        <object width='100%' height='530' data={pdf} type='application/pdf'><inner-text>pdf</inner-text></object>
       </content>
     </div>
   );

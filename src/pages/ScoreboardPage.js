@@ -6,7 +6,7 @@ import ScoreboardContent from '../components/ScoreboardContent';
 
 const ScoreboardPage = () => {
     return (
-        <div className="wrapper" style={{height: 'auto', minHeight: '100%'}}>
+        <div className="wrapper" style={{ height: 'auto', minHeight: '100%' }}>
             <Header />
             <ScoreboardSidebar />
             <ScoreboardContent />

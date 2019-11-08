@@ -10,10 +10,10 @@ export async function blob(url) {
 
 async function sendRequest(url, type) {
     const token = localStorage.getItem("token");
-    return fetch('http://localhost/api/'+url, {
-      headers: {
-        'Authorization': `Basic ${token}`
-      },
-      responseType: type
+    return fetch('http://localhost/api/' + url, {
+        headers: {
+            'Authorization': `Basic ${token}`
+        },
+        responseType: type
     });
 }
