@@ -10,7 +10,7 @@ import ContestCountdown from './ContestCountdown';
 
 const Sidebar = () => {
   const { tid } = useParams();
-  const { value: tasks, loading } = useAsync(json, `tasks`, []);
+  const { value: tasks, loading } = useAsync(json, 'tasks', []);
 
   return (
     <aside className="main-sidebar">
