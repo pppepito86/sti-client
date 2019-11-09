@@ -11,7 +11,7 @@ const TaskContent = () => {
 
   if (loading) return <LoadingContent />
 
-  const points = task.submissions.reduce((prev, current) => Math.max(prev, current.points), 0);
+  const points = task.submissions?task.submissions.reduce((prev, current) => Math.max(prev, current.points), 0) : 0;
   return (
     <div className="content-wrapper">
       <section className="content-header" style={{ display: 'flex', justifyContent: 'space-between' }}>

@@ -31,7 +31,7 @@ function SubmissionContent() {
           <section className="col-lg-12 connectedSortable ui-sortable">
             <div className="box">
               <Submission.SubmissionOverview tid={tid} submission={submission} />
-              <Submission.SubmissionDetails tests={submission.tests} />
+              {submission.tests && <Submission.SubmissionDetails tests={submission.tests} />}
             </div>
             <Submission.SubmissionSource source={submission.source} />
           </section>

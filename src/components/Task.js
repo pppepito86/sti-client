@@ -7,10 +7,11 @@ import { json, blob } from '../rest'
 var FileSaver = require('file-saver');
 
 async function download(tid) {
+  const contest = localStorage.getItem("contest");
   const name = (await json(`tasks/${tid}`)).name;
   const data = await blob(`tasks/${tid}/pdf`);
   const pdf = new Blob([data], { type: 'application/pdf' });
-  FileSaver.saveAs(pdf, `p${tid}-${name}.pdf`);
+  FileSaver.saveAs(pdf, `${contest}${tid}-${name}.pdf`);
 }
 
 function TaskDescription({ tid }) {
@@ -116,7 +117,19 @@ function TaskSubmit() {
   )
 }
 
+function TaskNoSubmissions() {
+  return (
+    <div className="box">
+      <div className="box-header with-border">
+        <h3 className="box-title">Няма предадени решения</h3>
+      </div>
+    </div>
+  )
+}
+
 function TaskSubmissions({ tid, submissions }) {
+  if (!submissions) return <TaskNoSubmissions/>
+
   return (
     <div className="box">
       <div className="box-header with-border">

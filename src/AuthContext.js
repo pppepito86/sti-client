@@ -1,4 +1,5 @@
 import React from 'react';
+import { sendRequestWithToken } from './rest'
 
 const AuthContext = React.createContext()
 
@@ -13,9 +14,7 @@ class AuthProvider extends React.Component {
 
     async login(username, password) {
         const token = window.btoa(username + ':' + password);
-        const response = await fetch('http://localhost/api/user', {
-            headers: { 'Authorization': `Basic ${token}` }
-        });
+        const response = await sendRequestWithToken('user', 'json', token);
         const user = await response.json();
         console.log(JSON.stringify(user));
 
