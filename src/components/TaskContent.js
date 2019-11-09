@@ -9,12 +9,23 @@ import useInterval from '../useInterval'
 const TaskContent = () => {
   const { tid } = useParams();
   const { value: task, loading } = useAsync(json, `tasks/${tid}`, [tid]);
-  const [refresh, setRefresh] = useState(0);
-  const { value: submissions } = useAsync(json, `tasks/${tid}/submissions`, [tid, refresh]);
+
+  const [now, setNow] = useState(Date.now()); 
+  const [contestRunning, setContestRunning] = useState(false);
+  const { value: timeLeft } = useAsync(json, 'timeToSubmit', [contestRunning, now]);
+
+  if (!contestRunning && timeLeft && timeLeft.timeLeft > 0) setContestRunning(true);
+  if (contestRunning && timeLeft && timeLeft.timeLeft <= 0) setContestRunning(false);
 
   useInterval(() => {
+    setNow(Date.now());
+  }, contestRunning ? (timeLeft.timeLeft < 60000 ? 1000 : 30000) : null);
+
+  const [refresh, setRefresh] = useState(0);
+  const { value: submissions } = useAsync(json, `tasks/${tid}/submissions`, [tid, refresh]);
+  useInterval(() => {
     setRefresh(refresh+1);
-  }, submissions && submissions.some(s => s.verdict==='waiting'||s.verdict==='judging') ? 2000 : null);
+  }, submissions && submissions.some(s => s.verdict==='waiting'||s.verdict==='judging') ? 5000 : null);
 
   if (loading) return <LoadingContent />
 
@@ -37,10 +48,11 @@ const TaskContent = () => {
         <div className="row">
           <div className="col-md-6">
             <Task.TaskDescription tid={tid} />
-            <Task.TaskLimits time={task.time} memory={task.memory} />
+            {contestRunning && <Task.TaskLimits time={task.time} memory={task.memory} />}
           </div>
           <div className="col-md-6">
-            <Task.TaskSubmit tid={tid} />
+            {timeLeft && !contestRunning && <Task.TaskLimits time={task.time} memory={task.memory} />}
+            {contestRunning && <Task.TaskSubmit tid={tid} timeToSubmit={timeLeft.timeToSubmit} />}
           </div>
         </div>
         <div className="row">

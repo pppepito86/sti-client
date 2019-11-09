@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useHistory, Link } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
+import useInterval from '../useInterval'
+import useAsync from '../useAsync'
 import moment from 'moment'
 import { json, blob, post } from '../rest'
 
@@ -52,7 +53,7 @@ function TaskLimits({ time, memory }) {
   )
 }
 
-function TaskSubmit({ tid }) {
+function TaskSubmit({ tid, timeToSubmit }) {
   return (
     <div className="nav-tabs-custom" style={{ borderTop: '3px solid #d2d6de', borderBottom: '1px solid #f4f4f4' }}>
       <ul className="nav nav-tabs pull-right">
@@ -62,18 +63,17 @@ function TaskSubmit({ tid }) {
       </ul>
       <div className="tab-content no-padding">
         <div className="tab-pane active" id="file-upload" style={{ position: 'relative' }}>
-          <TaskSubmitFile tid={tid} />
+          <TaskSubmitFile tid={tid} timeToSubmit={timeToSubmit} />
         </div>
         <div className="tab-pane" id="source-upload" style={{ position: 'relative', height: 'auto' }}>
-          <TaskSubmitCode tid={tid} />
+          <TaskSubmitCode tid={tid} timeToSubmit={timeToSubmit} />
         </div>
       </div>
     </div>
-
   )
 }
 
-function TaskSubmitFile({ tid }) {
+function TaskSubmitFile({ tid, timeToSubmit }) {
   const history = useHistory();
   const [file, setFile] = useState();
 
@@ -104,17 +104,14 @@ function TaskSubmitFile({ tid }) {
           <input type="hidden" name="ip" id="ip" value="92ed92a0-4e42-4b8e-b686-a6eb0c1d80c9.local" />
         </div>
 
-        <div className="box-footer">
-          <button type="submit" onClick={e => submit(e)} id="submitcodebutton2" className="btn btn-primary">Предай</button>
-          <span id="timetosubmit2" style={{ marginLeft: '5px' }}></span>
-        </div>
+        <SubmitButton submit={submit} timeToSubmit={timeToSubmit}/>
       </form>
     </div>
   )
 }
 
 
-function TaskSubmitCode({ tid }) {
+function TaskSubmitCode({ tid, timeToSubmit }) {
   const history = useHistory();
   const [code, setCode] = useState("");
 
@@ -143,15 +140,30 @@ function TaskSubmitCode({ tid }) {
           <input type="hidden" name="ip" id="ip" value="92ed92a0-4e42-4b8e-b686-a6eb0c1d80c9.local" />
         </div>
 
-        <div className="box-footer">
-          <button onClick={e => submit(e)} id="submitcodebutton3" className="btn btn-primary">Предай</button>
-          <span id="timetosubmit3" style={{ marginLeft: '5px' }}></span>
-        </div>
+        <SubmitButton submit={submit} timeToSubmit={timeToSubmit}/>
       </form>
     </div>
   )
 }
 
+function SubmitButton({submit, timeToSubmit}) {
+  const [currentTime, setCurrentTime] = useState(Date.now());
+  const [submissionTime] = useState(currentTime + timeToSubmit);
+
+  useInterval(() => {
+    setCurrentTime(Date.now());
+  }, currentTime < submissionTime ? 1000 : null);
+
+  const secondssLeft = currentTime < submissionTime ? parseInt((submissionTime - currentTime)/1000+1, 10):0;
+  return (
+    <div className="box-footer">
+      <button disabled={secondssLeft>0} type="submit" onClick={e => submit(e)} id="submitcodebutton2" className="btn btn-primary">Предай</button>
+      {secondssLeft>0 && <span id="timetosubmit3" style={{ marginLeft: '5px' }}>
+        {`след ${secondssLeft} секунд${secondssLeft !== 1 ? 'и':'а'}`}
+      </span>}
+     </div>
+    )
+}
 
 function TaskNoSubmissions() {
   return (
@@ -165,7 +177,7 @@ function TaskNoSubmissions() {
 
 function TaskSubmissions({ tid, submissions }) {
   if (!submissions) return <TaskNoSubmissions/>
-
+  
   return (
     <div className="box">
       <div className="box-header with-border">
