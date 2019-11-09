@@ -13,7 +13,7 @@ function SubmissionContent() {
 
   useInterval(() => {
     setRefresh(refresh+1);
-  }, !submission || !submission.points ? 2000 : null);
+  }, submission && !submission.points ? 2000 : null);
 
   if (!submission) return <LoadingContent />
 

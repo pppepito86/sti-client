@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from "react-router";
 import Task from './Task';
 import LoadingContent from './LoadingContent';
 import { json } from '../rest'
 import useAsync from '../useAsync'
+import useInterval from '../useInterval'
 
 const TaskContent = () => {
   const { tid } = useParams();
   const { value: task, loading } = useAsync(json, `tasks/${tid}`, [tid]);
+  const [refresh, setRefresh] = useState(0);
+  const { value: submissions } = useAsync(json, `tasks/${tid}/submissions`, [tid, refresh]);
+
+  useInterval(() => {
+    setRefresh(refresh+1);
+  }, submissions && submissions.some(s => s.verdict==='waiting'||s.verdict==='judging') ? 2000 : null);
 
   if (loading) return <LoadingContent />
 
-  const points = task.submissions?task.submissions.reduce((prev, current) => Math.max(prev, current.points), 0) : 0;
+  const points = submissions?submissions.reduce((prev, current) => Math.max(prev, current.points), 0) : 0;
   return (
     <div className="content-wrapper">
       <section className="content-header" style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -38,7 +45,7 @@ const TaskContent = () => {
         </div>
         <div className="row">
           <div className="col-md-12">
-            <Task.TaskSubmissions tid={tid} submissions={task.submissions} />
+            {submissions && <Task.TaskSubmissions tid={tid} submissions={submissions} />}
           </div>
         </div>
       </section>
