@@ -1,8 +1,8 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react'
+import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import moment from 'moment'
-import { json, blob } from '../rest'
+import { json, blob, post } from '../rest'
 
 var FileSaver = require('file-saver');
 
@@ -52,7 +52,7 @@ function TaskLimits({ time, memory }) {
   )
 }
 
-function TaskSubmit() {
+function TaskSubmit({ tid }) {
   return (
     <div className="nav-tabs-custom" style={{ borderTop: '3px solid #d2d6de', borderBottom: '1px solid #f4f4f4' }}>
       <ul className="nav nav-tabs pull-right">
@@ -62,60 +62,96 @@ function TaskSubmit() {
       </ul>
       <div className="tab-content no-padding">
         <div className="tab-pane active" id="file-upload" style={{ position: 'relative' }}>
-
-          <div className="box-body">
-            <form method="post" encType="multipart/form-data" action="http://52.59.81.222/user/submit-file">
-              <div className="box-body">
-
-                <input type="hidden" className="form-control" name="problemNumber" id="problemNumber" value="1" />
-
-                <div className="form-group">
-                  <label htmlFor="file">Файл</label>
-                  <input type="file" name="file" id="file" accept=".cpp,.c" />
-                </div>
-                <input type="hidden" name="ip" id="ip" value="92ed92a0-4e42-4b8e-b686-a6eb0c1d80c9.local" />
-              </div>
-
-              <div className="box-footer">
-                <button type="submit" onClick={useAuth().logout} id="submitcodebutton2" className="btn btn-primary">Предай</button>
-                <span id="timetosubmit2" style={{ marginLeft: '5px' }}></span>
-              </div>
-
-
-            </form>
-          </div>
-
-
+          <TaskSubmitFile tid={tid} />
         </div>
         <div className="tab-pane" id="source-upload" style={{ position: 'relative', height: 'auto' }}>
-
-          <div className="box-body">
-            <form method="post" action="http://52.59.81.222/user/submit-code">
-              <div className="box-body">
-
-                <input type="hidden" className="form-control" name="problemNumber" id="problemNumber" value="1" />
-
-                <div className="form-group">
-                  <textarea name="code" placeholder="Поставете вашият код" maxLength="65536" style={{ width: '100%', height: '80px', fontSize: '14px', lineHeight: '18px', border: '1px solid #dddddd', padding: '10px' }}></textarea>
-
-                </div>
-                <input type="hidden" name="ip" id="ip" value="92ed92a0-4e42-4b8e-b686-a6eb0c1d80c9.local" />
-              </div>
-
-              <div className="box-footer">
-                <button type="submit" id="submitcodebutton3" className="btn btn-primary">Предай</button>
-                <span id="timetosubmit3" style={{ marginLeft: '5px' }}></span>
-              </div>
-            </form>
-          </div>
-
-
+          <TaskSubmitCode tid={tid} />
         </div>
       </div>
     </div>
 
   )
 }
+
+function TaskSubmitFile({ tid }) {
+  const history = useHistory();
+  const [file, setFile] = useState();
+
+  async function submit(e) {
+    e.preventDefault();
+    console.log(file);
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', new Blob([file]), file.name);
+    formData.append('ip', '127.0.0.1');
+
+    const data = await post(`tasks/${tid}/solutions`, formData);
+    history.push(`/task/${tid}/submission/${data.sid}`);
+  }
+
+  return (
+    <div className="box-body">
+      <form method="post" encType="multipart/form-data" action="http://52.59.81.222/user/submit-file">
+        <div className="box-body">
+
+          <input type="hidden" className="form-control" name="problemNumber" id="problemNumber" value="1" />
+
+          <div className="form-group">
+            <label htmlFor="file">Файл</label>
+            <input onChange={(e)=>setFile(e.target.files[0])} type="file" name="file" id="file" accept=".cpp,.c" />
+          </div>
+          <input type="hidden" name="ip" id="ip" value="92ed92a0-4e42-4b8e-b686-a6eb0c1d80c9.local" />
+        </div>
+
+        <div className="box-footer">
+          <button type="submit" onClick={e => submit(e)} id="submitcodebutton2" className="btn btn-primary">Предай</button>
+          <span id="timetosubmit2" style={{ marginLeft: '5px' }}></span>
+        </div>
+      </form>
+    </div>
+  )
+}
+
+
+function TaskSubmitCode({ tid }) {
+  const history = useHistory();
+  const [code, setCode] = useState("");
+
+  async function submit(e) {
+    e.preventDefault();
+    if (!code || !code.trim().length) return;
+
+    const formData = new FormData();
+    formData.append('code', code);
+    formData.append('ip', '127.0.0.1');
+
+    const data = await post(`tasks/${tid}/solutions`, formData);
+    console.log(data);
+    history.push(`/task/${tid}/submission/${data.sid}`);
+  }
+
+  return (
+    <div className="box-body">
+      <form method="post" action="/">
+        <div className="box-body">
+          <input type="hidden" className="form-control" name="problemNumber" id="problemNumber" value="1" />
+
+          <div className="form-group">
+            <textarea onChange={(e) => setCode(e.target.value)} name="code" placeholder="Поставете вашият код" maxLength="65536" style={{ width: '100%', height: '80px', fontSize: '14px', lineHeight: '18px', border: '1px solid #dddddd', padding: '10px' }}></textarea>
+          </div>
+          <input type="hidden" name="ip" id="ip" value="92ed92a0-4e42-4b8e-b686-a6eb0c1d80c9.local" />
+        </div>
+
+        <div className="box-footer">
+          <button onClick={e => submit(e)} id="submitcodebutton3" className="btn btn-primary">Предай</button>
+          <span id="timetosubmit3" style={{ marginLeft: '5px' }}></span>
+        </div>
+      </form>
+    </div>
+  )
+}
+
 
 function TaskNoSubmissions() {
   return (

@@ -15,10 +15,10 @@ class AuthProvider extends React.Component {
     async login(username, password) {
         const token = window.btoa(username + ':' + password);
         const response = await sendRequestWithToken('user', 'json', token);
+        console.log(JSON.stringify(response));
         if (!response.ok) return;
 
         const user = await response.json();
-        console.log(JSON.stringify(user));
 
         localStorage.setItem("name", user.display_name);
         localStorage.setItem("contest", user.contest);

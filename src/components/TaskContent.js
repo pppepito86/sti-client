@@ -40,7 +40,7 @@ const TaskContent = () => {
             <Task.TaskLimits time={task.time} memory={task.memory} />
           </div>
           <div className="col-md-6">
-            <Task.TaskSubmit />
+            <Task.TaskSubmit tid={tid} />
           </div>
         </div>
         <div className="row">

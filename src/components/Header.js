@@ -7,9 +7,9 @@ import { useAuth } from '../AuthContext';
 function Header() {
     return (
 <header className="main-header">
-    <Link to="/task/1" className="logo">
-      <span className="logo-mini"><b>ЛТИ</b></span>
-      <span className="logo-lg">ЛТИ</span>
+    <Link to="/" className="logo">
+      <span className="logo-mini"><b>СТИ</b></span>
+      <span className="logo-lg">СТИ</span>
     </Link>
     <nav className="navbar navbar-static-top">
       <a href="/" className="sidebar-toggle" data-toggle="push-menu" role="button">
