@@ -4,9 +4,9 @@ import {json, post} from '../rest'
 import moment from 'moment'
 
 const ShowQuestion = ({ question }) => {
-  return (  
-    <div className="box direct-chat direct-chat-primary">
-      <div className="box-body">
+  return (
+    <div className={`${!question.seen?'box-primary ':''}box direct-chat direct-chat-primary`}>
+      <div style={question.seen?{backgroundColor: '#f4f4f4'}:{}} className="box-body">
         <div className="direct-chat-messages" style={{height: 'auto'}}>
           <div className="direct-chat-msg">
             <div className="direct-chat-info clearfix">
@@ -24,7 +24,7 @@ const ShowQuestion = ({ question }) => {
             <div className="direct-chat-info clearfix">
               <span className="direct-chat-name pull-right">Отговор</span>
               <span className="direct-chat-timestamp pull-left">
-                {moment.unix(question.time / 1000).format("DD MMM YYYY hh:mm:ss")}
+                {moment.unix(question.answer_time / 1000).format("DD MMM YYYY hh:mm:ss")}
               </span>
             </div>
             <div className="direct-chat-text">
