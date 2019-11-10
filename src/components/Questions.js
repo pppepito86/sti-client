@@ -5,12 +5,12 @@ import moment from 'moment'
 
 const ShowQuestion = ({ question }) => {
   return (  
-    <div className="box direct-chat direct-chat-warning">
+    <div className="box direct-chat direct-chat-primary">
       <div className="box-body">
         <div className="direct-chat-messages" style={{height: 'auto'}}>
           <div className="direct-chat-msg">
             <div className="direct-chat-info clearfix">
-              <span className="direct-chat-name pull-left">Въпрос - {question.topic}</span>
+              <span className="direct-chat-name pull-left">Въпрос {question.topic==='избери'?'':' за ' +question.topic}</span>
               <span className="direct-chat-timestamp pull-right">
                 {moment.unix(question.time / 1000).format("DD MMM YYYY hh:mm:ss")}
               </span>
@@ -27,8 +27,7 @@ const ShowQuestion = ({ question }) => {
                 {moment.unix(question.time / 1000).format("DD MMM YYYY hh:mm:ss")}
               </span>
             </div>
-            <style>{'#direct-chat-text-id:before, #direct-chat-text-id:after { border-left-color: #3c8dbc;'}</style>
-            <div id="direct-chat-text-id" className="direct-chat-text" style={{background: '#3c8dbc', borderColor: '#3c8dbc'}}>
+            <div className="direct-chat-text">
               {question.answer}
             </div>
           </div>
