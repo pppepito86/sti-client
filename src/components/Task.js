@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory, Link } from 'react-router-dom';
 import useInterval from '../useInterval'
-import useAsync from '../useAsync'
 import moment from 'moment'
 import { json, blob, post } from '../rest'
 

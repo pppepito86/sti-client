@@ -15,30 +15,71 @@ const DashboardContent = () => {
           <div className="col-md-8">
 
 
+          <div className="box box-warning direct-chat direct-chat-warning">
+
+<div className="box-body">
+  <form action="#" method="post">
+    <div className="input-group">
+    <div class="input-group-btn">
+                  <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Action
+                    <span class="fa fa-caret-down"></span></button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                  </ul>
+                </div>
+
+      <input type="text" name="message" placeholder="Напиши въпроса тук..." className="form-control" />
+      <span className="input-group-btn">
+        <button type="button" className="btn btn-warning btn-flat">Изпрати</button>
+      </span>
+    </div>
+  </form>
+</div>
+</div>
 
             <div className="box box-warning direct-chat direct-chat-warning">
-              <div className="box-header with-border">
-                <h3 className="box-title">Въпроси</h3>
-
-                <div className="box-tools pull-right">
-                  <span data-toggle="tooltip" title="3 New Messages" className="badge bg-yellow">3</span>
-                  <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i>
-                  </button>
-                  <button type="button" className="btn btn-box-tool" data-toggle="tooltip" title="Contacts"
-                    data-widget="chat-pane-toggle">
-                    <i className="fa fa-comments"></i></button>
-                  <button type="button" className="btn btn-box-tool" data-widget="remove"><i className="fa fa-times"></i>
-                  </button>
-                </div>
-              </div>
-
-
-
               <div className="box-body">
-                <div className="direct-chat-messages" style={{ height: '200px' }}>
+                <div className="direct-chat-messages" style={{height: 'auto'}}>
                   <div className="direct-chat-msg">
                     <div className="direct-chat-info clearfix">
-                      <span className="direct-chat-name pull-left">Вие</span>
+                      <span className="direct-chat-name pull-left">Въпрос - Задача 1</span>
+                      <span className="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
+                    </div>
+                    <div className="direct-chat-text">
+                      Is this template really for free? That's unbelievable!
+                      Is this template really for free? That's unbelievable!
+                      Is this template really for free? 
+                      {'sadfaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaasadfsdf'}
+                      That's unbelievable!
+                      Is this template really for free? That's unbelievable!
+                      Is this template really for free? That's unbelievable!
+                      </div>
+                  </div>
+                  <div className="direct-chat-msg right">
+                    <div className="direct-chat-info clearfix">
+                      <span className="direct-chat-name pull-right">Отговор</span>
+                      <span className="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
+                    </div>
+                    <div className="direct-chat-text">
+                      You better believe it!
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div className="box box-warning direct-chat direct-chat-warning">
+              <div className="box-body">
+                <div className="direct-chat-messages" style={{height: 'auto'}}>
+                  <div className="direct-chat-msg">
+                    <div className="direct-chat-info clearfix">
+                      <span className="direct-chat-name pull-left">Въпрос</span>
                       <span className="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
                     </div>
                     <div className="direct-chat-text">
@@ -51,77 +92,131 @@ const DashboardContent = () => {
                   </div>
                   <div className="direct-chat-msg right">
                     <div className="direct-chat-info clearfix">
-                      <span className="direct-chat-name pull-right">Жури</span>
+                      <span className="direct-chat-name pull-right">Отговор</span>
                       <span className="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
                     </div>
                     <div className="direct-chat-text">
                       You better believe it!
                       </div>
                   </div>
+                </div>
+              </div>
+            </div>
 
 
+
+            <div className="box box-warning direct-chat direct-chat-warning">
+              <div className="box-body">
+                <div className="direct-chat-messages" style={{height: 'auto'}}>
                   <div className="direct-chat-msg">
                     <div className="direct-chat-info clearfix">
-                      <span className="direct-chat-name pull-left">Вие</span>
-                      <span className="direct-chat-timestamp pull-right">23 Jan 5:37 pm</span>
+                      <span className="direct-chat-name pull-left">Въпрос</span>
+                      <span className="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
                     </div>
-                    <span className="direct-chat-img">Вие</span>
                     <div className="direct-chat-text">
-                      Working with AdminLTE on a great new app! Wanna join?
+                      Is this template really for free? That's unbelievable!
+                      Is this template really for free? That's unbelievable!
+                      Is this template really for free? That's unbelievable!
+                      Is this template really for free? That's unbelievable!
+                      Is this template really for free? That's unbelievable!
                       </div>
                   </div>
-
-
                   <div className="direct-chat-msg right">
                     <div className="direct-chat-info clearfix">
-                      <span className="direct-chat-name pull-right">Жури</span>
-                      <span className="direct-chat-timestamp pull-left">23 Jan 6:10 pm</span>
+                      <span className="direct-chat-name pull-right">Отговор</span>
+                      <span className="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
                     </div>
-                    <span className="direct-chat-img">Жури</span>
                     <div className="direct-chat-text">
-                      I would love to.
+                      You better believe it!
                       </div>
                   </div>
-
-
-
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               </div>
-
-
-
-
-
-              <div className="box-footer">
-                <form action="#" method="post">
-                  <div className="input-group">
-                    <input type="text" name="message" placeholder="Type Message ..." className="form-control" />
-                    <span className="input-group-btn">
-                      <button type="button" className="btn btn-warning btn-flat">Send</button>
-                    </span>
-                  </div>
-                </form>
-              </div>
-
             </div>
+
+
+
+            <div className="box box-warning direct-chat direct-chat-warning">
+              <div className="box-body">
+                <div className="direct-chat-messages" style={{height: 'auto'}}>
+                  <div className="direct-chat-msg">
+                    <div className="direct-chat-info clearfix">
+                      <span className="direct-chat-name pull-left">Въпрос</span>
+                      <span className="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
+                    </div>
+                    <div className="direct-chat-text">
+                      Is this template really for free? That's unbelievable!
+                      Is this template really for free? That's unbelievable!
+                      Is this template really for free? That's unbelievable!
+                      Is this template really for free? That's unbelievable!
+                      Is this template really for free? That's unbelievable!
+                      </div>
+                  </div>
+                  <div className="direct-chat-msg right">
+                    <div className="direct-chat-info clearfix">
+                      <span className="direct-chat-name pull-right">Отговор</span>
+                      <span className="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
+                    </div>
+                    <div className="direct-chat-text">
+                      You better believe it!
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
           </div>
 
 
+
+
           <div className="col-md-4">
+
+
+          <div class="box box-warning">
+            <div class="box-header with-border">
+              <h3 class="box-title">Задай въпрос</h3>
+            </div>
+            <div class="box-body">
+              <form>
+              <div class="form-group">
+                  <label>Тема</label>
+                  <select class="form-control">
+                    <option>задача 1</option>
+                    <option>задача 2</option>
+                    <option>задача 3</option>
+                    <option>друго</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Въпрос</label>
+                  <textarea class="form-control" rows="5" placeholder="Въведи..."></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Изпрати</button>
+              </div>
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <p className="text-center">
               <strong>Точки</strong>
             </p>

@@ -8,7 +8,7 @@ const ContestCountdown = () => {
     const { value: time, loading } = useAsync(json, `time`, []);
    
     return (
-        <div id="timer" style={{ color: '#b8c7ce', textAlign: 'center' }}>
+        <div id="timer" style={{ color: '#b8c7ce', textAlign: 'center', fontSize: '36px' }}>
             {!loading &&
                 <Countdown date={now + time.timeTillEnd} daysInHours={true} >
                     <span>Състезанието приключи</span>
