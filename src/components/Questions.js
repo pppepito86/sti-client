@@ -5,7 +5,7 @@ import moment from 'moment'
 
 const ShowQuestion = ({ question }) => {
   return (  
-    <div className="box box-warning direct-chat direct-chat-warning">
+    <div className="box direct-chat direct-chat-warning">
       <div className="box-body">
         <div className="direct-chat-messages" style={{height: 'auto'}}>
           <div className="direct-chat-msg">
@@ -27,7 +27,8 @@ const ShowQuestion = ({ question }) => {
                 {moment.unix(question.time / 1000).format("DD MMM YYYY hh:mm:ss")}
               </span>
             </div>
-            <div className="direct-chat-text">
+            <style>{'#direct-chat-text-id:before, #direct-chat-text-id:after { border-left-color: #3c8dbc;'}</style>
+            <div id="direct-chat-text-id" className="direct-chat-text" style={{background: '#3c8dbc', borderColor: '#3c8dbc'}}>
               {question.answer}
             </div>
           </div>
@@ -58,7 +59,7 @@ const SendQuestion = ({setShouldUpdate}) => {
   }
 
   return (
-    <div className="box box-warning">
+    <div className="box">
       <div className="box-header with-border">
         <h3 className="box-title">Задай въпрос</h3>
       </div>
