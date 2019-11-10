@@ -13,13 +13,13 @@ const QuestionsContent = () => {
   }, 10000);
 
   return (
-    <div className="content-wrapper">
+    <div className="content-wrapper" style={{ minHeight: '550px' }}>
       <section className="content">
         <div className="row">
           <div className="col-md-8">
             {
               questions && questions.slice().reverse().map((q) => {
-                return <ShowQuestion key={q.id} question={q} />
+                return <ShowQuestion key={q.id} question={q} setShouldUpdate={setShouldUpdate} />
             })}
           </div>
           <div className="col-md-4">

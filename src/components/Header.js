@@ -41,7 +41,7 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link to="/"><FontAwesomeIcon icon={faBell} /><span className="label label-danger">1</span></Link>
+              <Link to="/"><FontAwesomeIcon icon={faBell} /><span className="label label-danger"></span></Link>
             </li>
             <li>
               <Link to="/" onClick={useAuth().logout}><FontAwesomeIcon icon={faSignOutAlt} /></Link>

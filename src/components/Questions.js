@@ -3,9 +3,10 @@ import useAsync from '../useAsync'
 import {json, post} from '../rest'
 import moment from 'moment'
 
-const ShowQuestion = ({ question }) => {
+const ShowQuestion = ({ question, setShouldUpdate }) => {
+
   return (
-    <div className={`${!question.seen?'box-primary ':''}box direct-chat direct-chat-primary`}>
+    <div className={`${question.answer && !question.seen?'box-primary ':''}box direct-chat direct-chat-primary`}>
       <div style={question.seen?{backgroundColor: '#f4f4f4'}:{}} className="box-body">
         <div className="direct-chat-messages" style={{height: 'auto'}}>
           <div className="direct-chat-msg">
@@ -22,18 +23,40 @@ const ShowQuestion = ({ question }) => {
           {question.answer && 
           <div className="direct-chat-msg right">
             <div className="direct-chat-info clearfix">
-              <span className="direct-chat-name pull-right">Отговор</span>
+              <div className="direct-chat-name pull-right">Отговор</div>
               <span className="direct-chat-timestamp pull-left">
                 {moment.unix(question.answer_time / 1000).format("DD MMM YYYY hh:mm:ss")}
               </span>
             </div>
-            <div className="direct-chat-text">
+            <style>{'#direct-chat-text-id:before, #direct-chat-text-id:after { border-right-color: #green;'}</style>
+            <div id="direct-chat-text-id" className="direct-chat-text">
               {question.answer}
             </div>
           </div>
           }
+          {question.answer && !question.seen &&
+            <SeenQuestion id={question.id} setShouldUpdate={setShouldUpdate} />
+          }
         </div>
       </div>
+    </div>
+  )
+}
+
+const SeenQuestion = ({id, setShouldUpdate}) => {
+  async function read({target}) {
+    const id = target.name;
+    const formData = new FormData();
+    formData.append('id', id);
+    await post(`questions/seen`, formData);
+    setShouldUpdate(shouldUpdate => !shouldUpdate)
+  }
+
+  return (
+    <div className="checkbox pull-right">
+      <label>
+        <input type="checkbox" name={id} onClick={read} /> Прочетох
+      </label>
     </div>
   )
 }

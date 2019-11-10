@@ -1,4 +1,4 @@
-// const REST_URL = "http://35.158.118.93:8081/api/";
+//const REST_URL = "http://35.158.118.93:8081/api/";
 const REST_URL = "http://localhost/api/";
 
 export async function json(url) {

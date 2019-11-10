@@ -1,22 +1,29 @@
-import React from 'react';
-
+import React, { useState }  from 'react';
+import useAsync from '../useAsync'
+import useInterval from '../useInterval'
+import { json } from '../rest'
 
 const DashboardContent = () => {
+  const [shouldUpdate, setShouldUpdate] = useState(false);
+  const { value: announcements } = useAsync(json, 'announcements', [shouldUpdate]);
+
+  useInterval(() => {
+    setShouldUpdate(shouldUpdate => !shouldUpdate);
+  }, 10000);
+
   return (
-    <div className="content-wrapper">
+    <div className="content-wrapper" style={{ minHeight: '550px' }}>
       <section className="content">
         <div className="row">
-          <div className="col-md-6">
-          </div>
-          <div className="col-md-6">
-          </div>
-        </div>
-        <div className="row">
           <div className="col-md-8">
-            <div class="callout callout-info">
-                <h4>Задача diff</h4>
-                <p>Качено е условие с поправен тестов пример.</p>
-            </div>
+            {
+              announcements && announcements.slice().reverse().map((a) => {
+                return <div key={a.id} class="callout callout-info">
+                  <h4>{a.topic}</h4>
+                  <p>{a.announcement}</p>
+                </div>
+            })}
+            
           </div>
 
           <div className="col-md-4">

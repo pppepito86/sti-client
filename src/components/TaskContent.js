@@ -31,7 +31,7 @@ const TaskContent = () => {
 
   const points = submissions?submissions.reduce((prev, current) => Math.max(prev, current.points), 0) : 0;
   return (
-    <div className="content-wrapper">
+    <div className="content-wrapper" style={{ minHeight: '550px' }}>
       <section className="content-header" style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h1 style={{ display: 'inline-block', verticalAlign: 'top' }}>Задача {tid} - <b>{task.name}</b></h1>
         <div className="progress-group" style={{ display: 'inline-block', height: '26px', verticalAlign: 'top', width: '48.5%' }}>

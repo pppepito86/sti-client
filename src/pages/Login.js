@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../AuthContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -13,20 +15,20 @@ function Login() {
 
   return (
     <div style={{ height: '100%', background: '#d2d6de', transition: 'none', OTransition: 'none', WebkitTransition: 'none' }}>
-      <div className="login-box" style={{ margin: '0 auto', paddingTop: '7%' }}>
+      <div className="login-box" style={{ margin: '0 auto', paddingTop: '7%', minHeight: '550px'}}>
         <div className="login-logo">
-          <a href="http://18.185.92.223/index2.html"><b>Летен турнир по информатика</b></a>
+          <a href="/"><b>Софийски турнир по информатика</b></a>
         </div>
         <div className="login-box-body">
 
           <form method="post" action="">
             <div className="form-group has-feedback">
               <input type="text" className="form-control" onChange={(e) => setUsername(e.target.value)} placeholder="Име" name="username" value={username} />
-              <span className="glyphicon glyphicon-envelope form-control-feedback"></span>
+              <FontAwesomeIcon icon={faUser} style={{marginRight: '10px'}} className="form-control-feedback" />
             </div>
             <div className="form-group has-feedback">
               <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} placeholder="Парола" name="password" value={password} />
-              <span className="glyphicon glyphicon-lock form-control-feedback"></span>
+              <FontAwesomeIcon icon={faKey} style={{marginRight: '10px'}} className="form-control-feedback" />
             </div>
             <input type="hidden" name="ip" id="ip" value="382c5697-ca1c-47f8-af60-79156c17bb5a.local" />
             <div className="row">

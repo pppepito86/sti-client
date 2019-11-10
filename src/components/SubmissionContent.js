@@ -18,7 +18,7 @@ function SubmissionContent() {
   if (!submission) return <LoadingContent />
 
   return (
-    <div className="content-wrapper">
+    <div className="content-wrapper" style={{ minHeight: '550px' }}>
       <section className="content-header">
         <h1>
           Решение
