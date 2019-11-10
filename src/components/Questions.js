@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useAsync from '../useAsync'
 import {json, post} from '../rest'
 import moment from 'moment'
+import { useApp } from '../AppContext';
 
-const ShowQuestion = ({ question, setShouldUpdate }) => {
-
+const ShowQuestion = ({ question }) => {
   return (
     <div className={`${question.answer && !question.seen?'box-primary ':''}box direct-chat direct-chat-primary`}>
       <div style={question.seen?{backgroundColor: '#f4f4f4'}:{}} className="box-body">
@@ -35,7 +35,7 @@ const ShowQuestion = ({ question, setShouldUpdate }) => {
           </div>
           }
           {question.answer && !question.seen &&
-            <SeenQuestion id={question.id} setShouldUpdate={setShouldUpdate} />
+            <SeenQuestion id={question.id} />
           }
         </div>
       </div>
@@ -43,30 +43,34 @@ const ShowQuestion = ({ question, setShouldUpdate }) => {
   )
 }
 
-const SeenQuestion = ({id, setShouldUpdate}) => {
-  async function read({target}) {
-    const id = target.name;
+const SeenQuestion = ({id}) => {
+  const updateQuestions = useApp().updateQuestions;
+
+  const markQuestionSeen = async () => {
     const formData = new FormData();
     formData.append('id', id);
+
     await post(`questions/seen`, formData);
-    setShouldUpdate(shouldUpdate => !shouldUpdate)
+    updateQuestions();
   }
 
   return (
     <div className="checkbox pull-right">
       <label>
-        <input type="checkbox" name={id} onClick={read} /> Прочетох
+        <input type="checkbox" name={id} onClick={markQuestionSeen} /> Прочетох
       </label>
     </div>
   )
 }
 
-const SendQuestion = ({setShouldUpdate}) => {
+const SendQuestion = () => {
   const { value: tasks, loading } = useAsync(json, 'tasks', []);
   const [topic, setTopic] = useState("избери");
   const [question, setQuestion] = useState("");
 
-  async function submit(e) {
+  const updateQuestions = useApp().updateQuestions;
+
+  const submitQuestion = async (e) => {
     e.preventDefault();
     if (!question || !question.trim().length) return;
 
@@ -77,7 +81,7 @@ const SendQuestion = ({setShouldUpdate}) => {
 
     await post(`questions`, formData);
     setQuestion('');
-    setShouldUpdate(shouldUpdate => !shouldUpdate);
+    updateQuestions();
   }
 
   return (
@@ -104,7 +108,7 @@ const SendQuestion = ({setShouldUpdate}) => {
         </form>
       </div>
       <div className="box-footer">
-        <button onClick={e => submit(e)} type="submit" className="btn btn-primary">Изпрати</button>
+        <button onClick={e => submitQuestion(e)} type="submit" className="btn btn-primary">Изпрати</button>
       </div>
     </div>
   )

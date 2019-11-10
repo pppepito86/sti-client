@@ -18,7 +18,7 @@ const DashboardContent = () => {
           <div className="col-md-8">
             {
               announcements && announcements.slice().reverse().map((a) => {
-                return <div key={a.id} class="callout callout-info">
+                return <div key={a.id} className="callout callout-info">
                   <h4>{a.topic}</h4>
                   <p>{a.announcement}</p>
                 </div>

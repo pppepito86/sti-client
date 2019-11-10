@@ -1,19 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faSignOutAlt, faEnvelope, faBell } from '@fortawesome/free-solid-svg-icons'
 import { useAuth } from '../AuthContext'
-import useAsync from '../useAsync'
-import useInterval from '../useInterval'
-import { json } from '../rest'
+import { useApp } from '../AppContext';
 
 function Header() {
-  const [shouldUpdate, setShouldUpdate] = useState(false);
-  const { value: unread } = useAsync(json, 'unread', [shouldUpdate]);
-  
-  useInterval(() => {
-    setShouldUpdate(shouldUpdate => !shouldUpdate);
-  }, 10000);
+  const unread = useApp().unread;
 
   return (
     <header className="main-header">
@@ -35,8 +28,8 @@ function Header() {
           <ul className="nav navbar-nav">
             <li>
               <Link to="/questions"><FontAwesomeIcon icon={faEnvelope} />
-                {unread && unread.questions>0 && <span className="label label-danger">
-                  {unread.questions}
+                {unread > 0 && <span className="label label-danger">
+                  {unread}
                 </span>}
               </Link>
             </li>

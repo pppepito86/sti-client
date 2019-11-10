@@ -8,20 +8,23 @@ import PdfContent from '../components/PdfContent';
 import ScoreboardContent from '../components/ScoreboardContent';
 import DashboardContent from '../components/DashboardContent';
 import QuestionsContent from '../components/QuestionsContent';
+import { AppProvider } from '../AppContext';
 
 const PageTemplate = ({ content }) => {
     return (
-        <div className="wrapper">
-            <Header />
-            <Sidebar />
-            {content === 'task' && <TaskContent />}
-            {content === 'submission' && <SubmissionContent />}
-            {content === 'pdf' && <PdfContent />}
-            {content === 'questions' && <QuestionsContent />}
-            {content === 'scoreboard' && <ScoreboardContent />}
-            {content === 'dashboard' && <DashboardContent />}
-            <Footer />
-        </div>
+        <AppProvider>
+            <div className="wrapper">
+                <Header />
+                <Sidebar />
+                {content === 'task' && <TaskContent />}
+                {content === 'submission' && <SubmissionContent />}
+                {content === 'pdf' && <PdfContent />}
+                {content === 'questions' && <QuestionsContent />}
+                {content === 'scoreboard' && <ScoreboardContent />}
+                {content === 'dashboard' && <DashboardContent />}
+                <Footer />
+            </div>
+        </AppProvider>
     )
 }
 
