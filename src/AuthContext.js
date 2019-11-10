@@ -1,18 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { sendRequestWithToken } from './rest'
 
 const AuthContext = React.createContext()
 
-class AuthProvider extends React.Component {
+const AuthProvider = ({children}) => {
 
-    constructor() {
-        super();
-        this.state = { isAuth: localStorage.hasOwnProperty('token') };
-        this.login = this.login.bind(this);
-        this.logout = this.logout.bind(this);
-    }
+    const [isAuth, setIsAuth] = useState(localStorage.hasOwnProperty('token'));
 
-    async login(username, password) {
+    async function login(username, password) {
         const token = window.btoa(username + ':' + password);
         const response = await sendRequestWithToken('user', 'json', token);
         console.log(JSON.stringify(response));
@@ -23,28 +18,27 @@ class AuthProvider extends React.Component {
         localStorage.setItem("name", user.display_name);
         localStorage.setItem("contest", user.contest);
         localStorage.setItem("token", token);
-        this.setState({ isAuth: true });
+        setIsAuth(true);
     }
 
-    logout() {
+    function logout() {
         localStorage.removeItem('display_name');
         localStorage.removeItem('contest');
         localStorage.removeItem('token');
-        this.setState({ isAuth: false });
+        setIsAuth(false);
     }
 
-    render() {
-        return (
-            <AuthContext.Provider
-                value={{
-                    isAuth: this.state.isAuth,
-                    login: this.login,
-                    logout: this.logout
-                }}>
-                {this.props.children}
-            </AuthContext.Provider>
-        )
-    }
+    return (
+        <AuthContext.Provider
+            value={{
+                isAuth: isAuth,
+                login: login,
+                logout: logout
+            }}>
+            {children}
+        </AuthContext.Provider>
+    )
+
 }
 
 const useAuth = () => React.useContext(AuthContext)
