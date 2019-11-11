@@ -5,7 +5,7 @@ import { json } from '../rest'
 import useAsync from '../useAsync'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFile, faBook } from '@fortawesome/free-solid-svg-icons'
+import { faFile, faBook, faHome, faQuestion } from '@fortawesome/free-solid-svg-icons'
 import ContestCountdown from './ContestCountdown';
 
 const Sidebar = () => {
@@ -18,7 +18,19 @@ const Sidebar = () => {
       <section className="sidebar">
         
         <ContestCountdown />
-        <ul className="sidebar-menu tree" data-widget="tree">        
+        <ul className="sidebar-menu tree" data-widget="tree">      
+          <li className="header">МЕНЮ</li>
+          <li className={location.pathname === '/' ? 'active' : ''}>
+            <Link to="/">
+              <FontAwesomeIcon icon={faHome} /> &nbsp;<span>Начало</span>
+            </Link>
+          </li>
+          <li className={location.pathname === '/questions' ? 'active' : ''}>
+            <Link to="/questions">
+              <FontAwesomeIcon icon={faQuestion} /> &nbsp;<span>Въпроси</span>
+            </Link>
+          </li>
+ 
           <li className="header">ЗАДАЧИ</li>
           {
             !loading && tasks.map((t) => {
@@ -28,12 +40,7 @@ const Sidebar = () => {
                 </Link>
               </li>
           })}
-          <li className="header">МЕНЮ</li>
-          <li className={location.pathname === '/questions' ? 'active' : ''}>
-            <Link to="/questions">
-              <FontAwesomeIcon icon={faFile} /> &nbsp;<span>Въпроси</span>
-            </Link>
-          </li>
+          <li className="header">ДОКУМЕНТАЦИЯ</li>
           <li>
             <Link target="_blank" to="/docs/en/index.html">
               <FontAwesomeIcon icon={faBook} /> &nbsp;<span>C++ Документация</span>
