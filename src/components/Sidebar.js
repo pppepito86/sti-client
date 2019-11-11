@@ -7,11 +7,13 @@ import useAsync from '../useAsync'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFile, faBook, faHome, faQuestion } from '@fortawesome/free-solid-svg-icons'
 import ContestCountdown from './ContestCountdown';
+import { useApp } from '../AppContext';
 
 const Sidebar = () => {
   const { tid } = useParams();
   const location = useLocation();
   const { value: tasks, loading } = useAsync(json, 'tasks', []);
+  const time = useApp().time;
 
   return (
     <aside className="main-sidebar">
@@ -33,6 +35,7 @@ const Sidebar = () => {
  
           <li className="header">ЗАДАЧИ</li>
           {
+            time && time.timeTillStart <= 0 &&
             !loading && tasks.map((t) => {
               return <li key={t.number} className={t.number + "" === tid ? 'active' : ''}>
                 <Link to={`/task/${t.number}`}>

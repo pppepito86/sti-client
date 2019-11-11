@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 import Submission from './Submission';
 import LoadingContent from './LoadingContent';
 import useAsync from '../useAsync'
 import useInterval from '../useInterval'
 import { json } from '../rest'
+import { useApp } from '../AppContext';
 
 function SubmissionContent() {
+  const history = useHistory();
+  const time = useApp().time;
+  if (time && time.timeTillStart > 0) history.push("/"); 
+
   const { tid, sid } = useParams();
   const [refresh, setRefresh] = useState(0);
   const { value: submission } = useAsync(json, `tasks/${tid}/solutions/${sid}`, [tid, sid, refresh]);
@@ -15,7 +20,7 @@ function SubmissionContent() {
     setRefresh(refresh+1);
   }, submission && !submission.points ? 2000 : null);
 
-  if (!submission) return <LoadingContent />
+  if (!time || !submission) return <LoadingContent />
 
   return (
     <div className="content-wrapper" style={{ minHeight: '550px' }}>

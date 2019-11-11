@@ -1,19 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Countdown from 'react-countdown-now';
-import useAsync from '../useAsync'
-import { json } from '../rest'
+import { useApp } from '../AppContext';
 
 const ContestCountdown = () => {
-    const [now] = useState(Date.now());
-    const { value: time, loading } = useAsync(json, `time`, []);
+    const time = useApp().time;
+    if (time) console.log(time.endTime);
    
     return (
         <div id="timer" style={{ color: '#b8c7ce', textAlign: 'center', fontSize: '36px' }}>
-            {!loading &&
-                <Countdown date={now + time.timeTillEnd} daysInHours={true} >
+            {time && time.timeTillStart > 0 &&
+                <Countdown date={time.startTime} daysInHours={true} />
+            }
+            {time && time.timeTillStart <= 0 &&
+                <Countdown date={time.endTime} daysInHours={true} >
                     <span>Състезанието приключи</span>
                 </Countdown>
-            }
+            }            
         </div>
     )
 }

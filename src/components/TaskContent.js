@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 import Task from './Task';
 import LoadingContent from './LoadingContent';
 import { json } from '../rest'
 import useAsync from '../useAsync'
 import useInterval from '../useInterval'
+import { useApp } from '../AppContext';
 
 const TaskContent = () => {
+  const history = useHistory();
+  const time = useApp().time;
+  if (time && time.timeTillStart > 0) history.push("/"); 
+
   const { tid } = useParams();
   const { value: task, loading } = useAsync(json, `tasks/${tid}`, [tid]);
 
@@ -27,7 +32,7 @@ const TaskContent = () => {
     setRefresh(refresh+1);
   }, submissions && submissions.some(s => s.verdict==='waiting'||s.verdict==='judging') ? 5000 : null);
 
-  if (loading) return <LoadingContent />
+  if (!time || loading) return <LoadingContent />
 
   const points = submissions?submissions.reduce((prev, current) => Math.max(prev, current.points), 0) : 0;
   return (
