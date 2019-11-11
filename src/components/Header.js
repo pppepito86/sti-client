@@ -6,7 +6,8 @@ import { useAuth } from '../AuthContext'
 import { useApp } from '../AppContext';
 
 function Header() {
-  const unread = useApp().unread;
+  const unreadQuestions = useApp().unreadQuestions;
+  const unreadAnnouncements = useApp().unreadAnnouncements;
 
   return (
     <header className="main-header">
@@ -28,13 +29,17 @@ function Header() {
           <ul className="nav navbar-nav">
             <li>
               <Link to="/questions"><FontAwesomeIcon icon={faEnvelope} />
-                {unread > 0 && <span className="label label-danger">
-                  {unread}
+                {unreadQuestions > 0 && <span className="label label-danger">
+                  {unreadQuestions}
                 </span>}
               </Link>
             </li>
             <li>
-              <Link to="/"><FontAwesomeIcon icon={faBell} /><span className="label label-danger"></span></Link>
+              <Link to="/"><FontAwesomeIcon icon={faBell} />
+                {unreadAnnouncements > 0 && <span className="label label-danger">
+                  {unreadAnnouncements}
+                </span>}
+              </Link>
             </li>
             <li>
               <Link to="/" onClick={useAuth().logout}><FontAwesomeIcon icon={faSignOutAlt} /></Link>

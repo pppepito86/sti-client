@@ -1,15 +1,9 @@
-import React, { useState }  from 'react';
-import useAsync from '../useAsync'
-import useInterval from '../useInterval'
-import { json } from '../rest'
+import React from 'react';
+import { useApp } from '../AppContext';
+import {post} from '../rest';
 
 const DashboardContent = () => {
-  const [shouldUpdate, setShouldUpdate] = useState(false);
-  const { value: announcements } = useAsync(json, 'announcements', [shouldUpdate]);
-
-  useInterval(() => {
-    setShouldUpdate(shouldUpdate => !shouldUpdate);
-  }, 10000);
+  const announcements = useApp().announcements;
 
   return (
     <div className="content-wrapper" style={{ minHeight: '550px' }}>
@@ -17,10 +11,11 @@ const DashboardContent = () => {
         <div className="row">
           <div className="col-md-8">
             {
-              announcements && announcements.slice().reverse().map((a) => {
+              announcements.slice().reverse().map((a) => {
                 return <div key={a.id} className="callout callout-info">
-                  <h4>{a.topic}</h4>
+                  {a.topic && <h4>{a.topic}</h4>}
                   <p>{a.announcement}</p>
+                  {!a.seen && <SeenAnnouncement id={a.id} />}
                 </div>
             })}
             
@@ -73,6 +68,26 @@ const DashboardContent = () => {
         </div>
       </section>
     </div>
+  )
+}
+
+const SeenAnnouncement = ({id}) => {
+  const updateAnnouncements = useApp().updateAnnouncements;
+
+  const markAnnouncementSeen = async () => {
+    const formData = new FormData();
+    formData.append('id', id);
+
+    await post(`announcements/seen`, formData);
+    updateAnnouncements();
+  }
+
+  return (
+    <div>
+      <input name={id} onClick={markAnnouncementSeen} type="checkbox" className="checkbox pull-left" />
+      &nbsp;Прочетох
+      </div>
+
   )
 }
 
