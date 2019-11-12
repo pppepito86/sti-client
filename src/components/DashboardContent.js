@@ -4,6 +4,8 @@ import {post} from '../rest';
 
 const DashboardContent = () => {
   const announcements = useApp().announcements;
+  const contestIsRunning = useApp().contestIsRunning;
+  const contestIsFinished = useApp().contestIsFinished;
 
   return (
     <div className="content-wrapper" style={{ minHeight: '550px' }}>
@@ -21,6 +23,7 @@ const DashboardContent = () => {
             
           </div>
 
+{(contestIsRunning || contestIsFinished) &&
           <div className="col-md-4">
             <p className="text-center">
               <strong>Точки</strong>
@@ -59,7 +62,7 @@ const DashboardContent = () => {
               </div>
             </div>
           </div>
-
+}
 
 
 

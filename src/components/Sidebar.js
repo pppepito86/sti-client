@@ -13,7 +13,8 @@ const Sidebar = () => {
   const { tid } = useParams();
   const location = useLocation();
   const { value: tasks, loading } = useAsync(json, 'tasks', []);
-  const time = useApp().time;
+  const contestIsRunning = useApp().contestIsRunning;
+  const contestIsFinished = useApp().contestIsFinished;
 
   return (
     <aside className="main-sidebar">
@@ -35,7 +36,7 @@ const Sidebar = () => {
  
           <li className="header">ЗАДАЧИ</li>
           {
-            time && time.timeTillStart <= 0 &&
+            (contestIsRunning || contestIsFinished) &&
             !loading && tasks.map((t) => {
               return <li key={t.number} className={t.number + "" === tid ? 'active' : ''}>
                 <Link to={`/task/${t.number}`}>

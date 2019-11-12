@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams, useHistory } from "react-router";
+import { useParams } from "react-router";
 import Task from './Task';
 import LoadingContent from './LoadingContent';
 import { json } from '../rest'
@@ -8,23 +8,13 @@ import useInterval from '../useInterval'
 import { useApp } from '../AppContext';
 
 const TaskContent = () => {
-  const history = useHistory();
-  const time = useApp().time;
-  if (time && time.timeTillStart > 0) history.push("/"); 
+  const contestIsRunning = useApp().contestIsRunning;
+  const contestIsFinished = useApp().contestIsFinished;
 
   const { tid } = useParams();
   const { value: task, loading } = useAsync(json, `tasks/${tid}`, [tid]);
 
-  const [now, setNow] = useState(Date.now()); 
-  const [contestRunning, setContestRunning] = useState(false);
-  const { value: timeLeft } = useAsync(json, 'timeToSubmit', [contestRunning, now]);
-
-  if (!contestRunning && timeLeft && timeLeft.timeLeft > 0) setContestRunning(true);
-  if (contestRunning && timeLeft && timeLeft.timeLeft <= 0) setContestRunning(false);
-
-  useInterval(() => {
-    setNow(Date.now());
-  }, contestRunning ? (timeLeft.timeLeft < 60000 ? 1000 : 30000) : null);
+  const { value: timeLeft } = useAsync(json, 'timeToSubmit', []);
 
   const [refresh, setRefresh] = useState(0);
   const { value: submissions } = useAsync(json, `tasks/${tid}/submissions`, [tid, refresh]);
@@ -32,7 +22,7 @@ const TaskContent = () => {
     setRefresh(refresh+1);
   }, submissions && submissions.some(s => s.verdict==='waiting'||s.verdict==='judging') ? 5000 : null);
 
-  if (!time || loading) return <LoadingContent />
+  if (loading || (!contestIsRunning && !contestIsFinished)) return <LoadingContent />
 
   const points = submissions?submissions.reduce((prev, current) => Math.max(prev, current.points), 0) : 0;
   return (
@@ -53,11 +43,11 @@ const TaskContent = () => {
         <div className="row">
           <div className="col-md-6">
             <Task.TaskDescription tid={tid} />
-            {contestRunning && <Task.TaskLimits time={task.time} memory={task.memory} />}
+            {contestIsRunning && <Task.TaskLimits time={task.time} memory={task.memory} />}
           </div>
           <div className="col-md-6">
-            {timeLeft && !contestRunning && <Task.TaskLimits time={task.time} memory={task.memory} />}
-            {contestRunning && <Task.TaskSubmit tid={tid} timeToSubmit={timeLeft.timeToSubmit} />}
+            {contestIsFinished && <Task.TaskLimits time={task.time} memory={task.memory} />}
+            {contestIsRunning && timeLeft && <Task.TaskSubmit tid={tid} timeToSubmit={timeLeft.timeToSubmit} />}
           </div>
         </div>
         <div className="row">

@@ -8,6 +8,8 @@ const AppContext = React.createContext()
 const AppProvider = ({children}) => {
     const [now, setNow] = useState(Date.now());
     const [time, setTime] = useState();
+    const [contestIsRunning, setContestIsRunning] = useState(false);
+    const [contestIsFinished, setContestIsFinished] = useState(false);
     const [unreadQuestions, setUnreadQuestions] = useState(0);
     const [questions, setQuestions] = useState([]);
     const [unreadAnnouncements, setUnreadAnnouncements] = useState(0);
@@ -40,13 +42,25 @@ const AppProvider = ({children}) => {
         updateQuestions();
         updateAnnouncements();
     }, 10000);
+    
+    useInterval(() => {
+        setContestIsRunning(true);
+        setContestIsFinished(false);
+    }, time && !contestIsRunning && !contestIsFinished ? time.timeTillStart : null);
+
+    useInterval(() => {
+        setContestIsRunning(false);
+        setContestIsFinished(true);
+    }, time && contestIsRunning ? time.timeTillEnd : null);
 
     useEffect(() => {
         if (timeData) {
-            setTime({...timeData, 
+            setTime({...timeData,
                 startTime: Date.now() + timeData.timeTillStart,
                 endTime: now + timeData.timeTillEnd
             });
+            setContestIsRunning(timeData.timeTillStart <= 0 && timeData.timeTillEnd > 0);
+            setContestIsFinished(timeData.timeTillEnd <= 0);
         }
     }, [timeData]);
 
@@ -58,7 +72,6 @@ const AppProvider = ({children}) => {
     }, [questionsData]);
 
     useEffect(() => {
-        console.log(announcementsData);
         if (announcementsData) {
             setAnnouncements(announcementsData);
             setUnreadAnnouncements(announcementsData.slice().filter(a => !a.seen).length);
@@ -69,6 +82,8 @@ const AppProvider = ({children}) => {
         <AppContext.Provider
             value={{
                 time: time,
+                contestIsRunning: contestIsRunning,
+                contestIsFinished: contestIsFinished,
                 questions: questions,
                 unreadQuestions: unreadQuestions,
                 announcements: announcements,

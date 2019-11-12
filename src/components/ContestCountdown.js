@@ -4,7 +4,6 @@ import { useApp } from '../AppContext';
 
 const ContestCountdown = () => {
     const time = useApp().time;
-    if (time) console.log(time.endTime);
    
     return (
         <div id="timer" style={{ color: '#b8c7ce', textAlign: 'center', fontSize: '36px' }}>

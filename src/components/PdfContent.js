@@ -1,19 +1,18 @@
 import React from 'react';
-import { useParams, useHistory } from "react-router";
+import { useParams } from "react-router";
 import LoadingContent from './LoadingContent';
 import { blob } from '../rest'
 import useAsync from '../useAsync'
 import { useApp } from '../AppContext';
 
 const PdfContent = () => {
-  const history = useHistory();
-  const time = useApp().time;
-  if (time && time.timeTillStart > 0) history.push("/"); 
+  const contestIsRunning = useApp().contestIsRunning;
+  const contestIsFinished = useApp().contestIsFinished;
 
   const { tid } = useParams();
   const { value, loading } = useAsync(blob, `tasks/${tid}/pdf`, [tid]);
 
-  if (!time || loading) return <LoadingContent />
+  if (loading || (!contestIsRunning && !contestIsFinished)) return <LoadingContent />
 
   const pdf = URL.createObjectURL(value);
 
