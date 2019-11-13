@@ -6,23 +6,24 @@ import { json } from '../rest'
 import useAsync from '../useAsync'
 import useInterval from '../useInterval'
 import { useApp } from '../AppContext';
+import Modal from './Modal';
 
 const TaskContent = () => {
   const contestIsRunning = useApp().contestIsRunning;
   const contestIsFinished = useApp().contestIsFinished;
 
   const { tid } = useParams();
-  const { value: task, loading: taskLoading } = useAsync(json, `tasks/${tid}`, [tid]);
+  const { value: task } = useAsync(json, `tasks/${tid}`, [tid]);
 
   const { value: timeLeft } = useAsync(json, 'timeToSubmit', []);
 
   const [refresh, setRefresh] = useState(0);
-  const { value: submissions, loading: submissionsLoading } = useAsync(json, `tasks/${tid}/submissions`, [tid, refresh]);
+  const { value: submissions } = useAsync(json, `tasks/${tid}/submissions`, [tid, refresh]);
   useInterval(() => {
     setRefresh(refresh+1);
   }, submissions && submissions.some(s => s.verdict==='waiting'||s.verdict==='judging') ? 5000 : null);
 
-  if (taskLoading || submissionsLoading || (!contestIsRunning && !contestIsFinished)) return <LoadingContent />
+  if (!task || !submissions || (!contestIsRunning && !contestIsFinished)) return <LoadingContent />
 
   const points = submissions?submissions.reduce((prev, current) => Math.max(prev, current.points), 0) : 0;
   return (
