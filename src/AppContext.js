@@ -10,6 +10,7 @@ const AppProvider = ({children}) => {
     const [time, setTime] = useState();
     const [contestIsRunning, setContestIsRunning] = useState(false);
     const [contestIsFinished, setContestIsFinished] = useState(false);
+    
     const [unreadQuestions, setUnreadQuestions] = useState(0);
     const [questions, setQuestions] = useState([]);
     const [unreadAnnouncements, setUnreadAnnouncements] = useState(0);

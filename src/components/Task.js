@@ -3,6 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 import useInterval from '../useInterval'
 import moment from 'moment'
 import { json, blob, post } from '../rest'
+import Verdict from './Verdict';
 
 var FileSaver = require('file-saver');
 
@@ -186,9 +187,9 @@ function TaskSubmissions({ tid, submissions }) {
         <table className="table table-bordered" style={{ tableLayout: 'fixed', wordWrap: 'break-word' }}>
           <thead>
             <tr>
-              <th style={{ width: '10px' }}>#</th>
+              <th style={{ width: '5%' }}>#</th>
               <th style={{ width: '15%' }}>Час</th>
-              <th style={{ width: '65%' }}>Детайли</th>
+              <th style={{ width: '70%' }}>Детайли</th>
               <th style={{ width: '10%' }}>Точки</th>
             </tr>
           </thead>
@@ -198,7 +199,7 @@ function TaskSubmissions({ tid, submissions }) {
                 return <tr key={i}>
                   <td><Link to={`/task/${tid}/submission/${submissions.length - i}`}>{submissions.length - i}</Link></td>
                   <td>{moment.unix(s.upload_time / 1000).format("DD MMM YYYY hh:mm:ss")}</td>
-                  <td>{s.verdict}</td>
+                  <td><Verdict verdict={s.verdict} /></td>
                   <td>{s.points}</td>
                 </tr>
               })}
