@@ -9,6 +9,7 @@ import ScoreboardContent from '../components/ScoreboardContent';
 import DashboardContent from '../components/DashboardContent';
 import QuestionsContent from '../components/QuestionsContent';
 import { AppProvider } from '../AppContext';
+import Modal from '../components/Modal';
 
 const PageTemplate = ({ content }) => {
     return (
@@ -23,6 +24,7 @@ const PageTemplate = ({ content }) => {
                 {content === 'scoreboard' && <ScoreboardContent />}
                 {content === 'dashboard' && <DashboardContent />}
                 <Footer />
+                <Modal />
             </div>
         </AppProvider>
     )

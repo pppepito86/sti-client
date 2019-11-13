@@ -6,6 +6,8 @@ import { json } from './rest'
 const AppContext = React.createContext()
 
 const AppProvider = ({children}) => {
+    const [error, setError] = useState({topic:'Качването неуспешно!', message: 'Файлът е твърде голям'});
+
     const [now, setNow] = useState(Date.now());
     const [time, setTime] = useState();
     const [contestIsRunning, setContestIsRunning] = useState(false);
@@ -82,6 +84,8 @@ const AppProvider = ({children}) => {
     return (
         <AppContext.Provider
             value={{
+                error: error,
+                setError: setError,
                 time: time,
                 contestIsRunning: contestIsRunning,
                 contestIsFinished: contestIsFinished,
@@ -95,7 +99,6 @@ const AppProvider = ({children}) => {
             {children}
         </AppContext.Provider>
     )
-
 }
 
 const useApp = () => React.useContext(AppContext)

@@ -6,7 +6,6 @@ import { json } from '../rest'
 import useAsync from '../useAsync'
 import useInterval from '../useInterval'
 import { useApp } from '../AppContext';
-import Modal from './Modal';
 
 const TaskContent = () => {
   const contestIsRunning = useApp().contestIsRunning;
