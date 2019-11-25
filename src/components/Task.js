@@ -4,6 +4,7 @@ import useInterval from '../useInterval'
 import moment from 'moment'
 import { json, blob, post } from '../rest'
 import Verdict from './Verdict';
+import { useApp } from '../AppContext';
 
 var FileSaver = require('file-saver');
 
@@ -114,6 +115,7 @@ function TaskSubmitFile({ tid, timeToSubmit }) {
 function TaskSubmitCode({ tid, timeToSubmit }) {
   const history = useHistory();
   const [code, setCode] = useState("");
+  //const setError = useApp().setError;
 
   async function submit(e) {
     e.preventDefault();
@@ -123,8 +125,8 @@ function TaskSubmitCode({ tid, timeToSubmit }) {
     formData.append('code', code);
     formData.append('ip', '127.0.0.1');
 
+    //setError({topic:'Качването неуспешно!', message: 'Файлът е твърде голям'});
     const data = await post(`tasks/${tid}/solutions`, formData);
-    console.log(data);
     history.push(`/task/${tid}/submission/${data.sid}`);
   }
 

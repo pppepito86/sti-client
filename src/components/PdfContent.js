@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router";
 import LoadingContent from './LoadingContent';
 import { blob } from '../rest'
 import useAsync from '../useAsync'
-import { useApp } from '../AppContext';
 
 const PdfContent = () => {
-  const contestIsRunning = useApp().contestIsRunning;
-  const contestIsFinished = useApp().contestIsFinished;
-
   const { tid } = useParams();
-  const { value, loading } = useAsync(blob, `tasks/${tid}/pdf`, [tid]);
+  const { value } = useAsync(blob, `tasks/${tid}/pdf`, [tid]);
+  const [pdf, setPdf] = useState();
 
-  if (loading || (!contestIsRunning && !contestIsFinished)) return <LoadingContent />
+  useEffect(() => {
+    async function setResource() {
+      if (value) setPdf(URL.createObjectURL(value));
+    }
 
-  const pdf = URL.createObjectURL(value);
+    setResource();
+  }, [value]);
+
+  if (!value) return <LoadingContent />
 
   return (
     <div className="content-wrapper" style={{ minHeight: '498px' }}>

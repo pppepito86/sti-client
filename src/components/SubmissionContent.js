@@ -17,7 +17,7 @@ function SubmissionContent() {
 
   useInterval(() => {
     setRefresh(refresh+1);
-  }, submission && !submission.points ? 2000 : null);
+  }, submission && !submission.points ? 5000 : null);
 
   if ((!contestIsRunning && !contestIsFinished) || !submission) return <LoadingContent />
 

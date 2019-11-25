@@ -7,7 +7,7 @@ function Verdict({verdict}) {
         verdict.slice().split(',').map((v, i) => {
           const color = v === 'OK' ? 'label-success' :
                         v === '?' ? 'label-default' :
-                        v === 'waiting' || v === 'judging' ? 'label-success' :
+                        v === 'waiting' || v === 'judging' ? 'label-warning' :
                         'label-danger';
           const width = v === 'waiting' || v === 'judging' ? '50px' : '26px';
           return <span key={i} className={`label ${color}`} 

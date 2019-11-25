@@ -6,12 +6,13 @@ import { json } from './rest'
 const AppContext = React.createContext()
 
 const AppProvider = ({children}) => {
-    const [error, setError] = useState({topic:'Качването неуспешно!', message: 'Файлът е твърде голям'});
+    const [error, setError] = useState();
 
     const [now, setNow] = useState(Date.now());
     const [time, setTime] = useState();
     const [contestIsRunning, setContestIsRunning] = useState(false);
     const [contestIsFinished, setContestIsFinished] = useState(false);
+    const [contestIsStarted, setContestIsStarted] = useState(false);
     
     const [unreadQuestions, setUnreadQuestions] = useState(0);
     const [questions, setQuestions] = useState([]);
@@ -47,13 +48,15 @@ const AppProvider = ({children}) => {
     }, 10000);
     
     useInterval(() => {
-        setContestIsRunning(true);
-        setContestIsFinished(false);
+        if (!contestIsRunning) setContestIsRunning(true);
+        if (!contestIsFinished) setContestIsFinished(false);
+        if (!contestIsStarted) setContestIsStarted(true);
     }, time && !contestIsRunning && !contestIsFinished ? time.timeTillStart : null);
 
     useInterval(() => {
-        setContestIsRunning(false);
-        setContestIsFinished(true);
+        if (contestIsRunning) setContestIsRunning(false);
+        if (!contestIsFinished) setContestIsFinished(true);
+        if (!contestIsStarted) setContestIsStarted(true);
     }, time && contestIsRunning ? time.timeTillEnd : null);
 
     useEffect(() => {
@@ -62,8 +65,16 @@ const AppProvider = ({children}) => {
                 startTime: Date.now() + timeData.timeTillStart,
                 endTime: now + timeData.timeTillEnd
             });
-            setContestIsRunning(timeData.timeTillStart <= 0 && timeData.timeTillEnd > 0);
-            setContestIsFinished(timeData.timeTillEnd <= 0);
+            if (!contestIsRunning && timeData.timeTillStart <= 0 && timeData.timeTillEnd > 0) {
+                setContestIsRunning(true);
+            }
+            if (contestIsRunning && !(timeData.timeTillStart <= 0 && timeData.timeTillEnd > 0)) {
+                setContestIsRunning(false);
+            }
+            if (!contestIsFinished && timeData.timeTillEnd <= 0) setContestIsFinished(true);
+            if (contestIsFinished && timeData.timeTillEnd > 0) setContestIsFinished(false);
+            if (!contestIsStarted && (contestIsRunning || contestIsFinished)) setContestIsStarted(true);
+            if (contestIsStarted && !(contestIsRunning || contestIsFinished)) setContestIsStarted(false);
         }
     }, [timeData]);
 
@@ -89,6 +100,7 @@ const AppProvider = ({children}) => {
                 time: time,
                 contestIsRunning: contestIsRunning,
                 contestIsFinished: contestIsFinished,
+                contestIsStarted: contestIsStarted,
                 questions: questions,
                 unreadQuestions: unreadQuestions,
                 announcements: announcements,

@@ -4,7 +4,6 @@ import moment from 'moment'
 import Verdict from './Verdict';
 
 function SubmissionOverview({ tid, submission }) {
-  console.log(submission.verdict.slice().split(","));
   return (
     <div className="box-body">
       <table style={{ tableLayout: 'fixed', wordWrap: 'break-word' }} className="table table-bordered">
