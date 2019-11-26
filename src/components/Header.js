@@ -28,16 +28,16 @@ function Header() {
         <div className="navbar-custom-menu">
           <ul className="nav navbar-nav">
             <li>
-              <Link to="/questions"><FontAwesomeIcon icon={faEnvelope} />
-                {unreadQuestions > 0 && <span className="label label-danger">
-                  {unreadQuestions}
+              <Link to="/"><FontAwesomeIcon icon={faBell} />
+                {unreadAnnouncements > 0 && <span className="label label-danger">
+                  {unreadAnnouncements}
                 </span>}
               </Link>
             </li>
             <li>
-              <Link to="/"><FontAwesomeIcon icon={faBell} />
-                {unreadAnnouncements > 0 && <span className="label label-danger">
-                  {unreadAnnouncements}
+              <Link to="/questions"><FontAwesomeIcon icon={faEnvelope} />
+                {unreadQuestions > 0 && <span className="label label-danger">
+                  {unreadQuestions}
                 </span>}
               </Link>
             </li>

@@ -69,6 +69,7 @@ const SendQuestion = () => {
   const [question, setQuestion] = useState("");
 
   const updateQuestions = useApp().updateQuestions;
+  const contestIsStarted = useApp().contestIsStarted;
 
   const submitQuestion = async (e) => {
     e.preventDefault();
@@ -96,7 +97,7 @@ const SendQuestion = () => {
             <select onChange={(e) => setTopic(e.target.value)} value={topic} className="form-control">
               <option>избери</option>
               {
-                !loading && tasks.map((t) => {
+                contestIsStarted && tasks && tasks.map((t) => {
                   return <option key={t.number} value={t.name}>{t.name}</option>
               })}
             </select>

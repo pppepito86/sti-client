@@ -12,17 +12,17 @@ const TaskContent = () => {
   const contestIsFinished = useApp().contestIsFinished;
 
   const { tid } = useParams();
-  const { value: task } = useAsync(json, `tasks/${tid}`, [tid]);
+  const { value: task, loading: loadingTask } = useAsync(json, `tasks/${tid}`, [tid]);
 
   const { value: timeLeft } = useAsync(json, 'timeToSubmit', []);
 
   const [refresh, setRefresh] = useState(0);
-  const { value: submissions } = useAsync(json, `tasks/${tid}/submissions`, [tid, refresh]);
+  const { value: submissions, loading: loadingSubmissions } = useAsync(json, `tasks/${tid}/submissions`, [tid, refresh]);
   useInterval(() => {
     setRefresh(refresh+1);
   }, submissions && submissions.some(s => s.verdict==='waiting'||s.verdict==='judging') ? 5000 : null);
 
-  if (!task || !submissions || (!contestIsRunning && !contestIsFinished)) return <LoadingContent />
+  if (loadingTask || loadingSubmissions || (!contestIsRunning && !contestIsFinished)) return <LoadingContent />
 
   const points = submissions?submissions.reduce((prev, current) => Math.max(prev, current.points), 0) : 0;
   return (
@@ -30,7 +30,7 @@ const TaskContent = () => {
       <section className="content-header" style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h1 style={{ display: 'inline-block', verticalAlign: 'top' }}>Задача {tid} - <b>{task.name}</b></h1>
         <div className="progress-group" style={{ display: 'inline-block', height: '26px', verticalAlign: 'top', width: '48.5%' }}>
-          <span className="progress-text">Точки</span>
+          <span className="progress-text">Точки от публични тестове</span>
           <span className="progress-number"><b>{points}</b>/100</span>
 
           <div className="progress sm">
