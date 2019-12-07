@@ -6,10 +6,14 @@ import { useApp } from '../AppContext';
 
 const ShowQuestion = ({ question }) => {
   return (
-    <div className={`${question.answer && !question.seen?'box-primary ':''}box direct-chat direct-chat-primary`}>
+    <div>
+    <style>{'.direct-chat-new .right>.direct-chat-text{background:#d2d6de;border-color:#d2d6de;}.direct-chat-new .right>.direct-chat-text:after,.direct-chat-new .right>.direct-chat-text:before{content:none}'}</style>
+    <style>{'.direct-chat-new .left>.direct-chat-text{background:#3c8dbc;border-color:#3c8dbc;color:#fff}.direct-chat-new .left>.direct-chat-text:after,.direct-chat-new .left>.direct-chat-text:before{content:none}'}</style>
+
+    <div className={`${question.answer && !question.seen?'box-primary ':''}box direct-chat direct-chat-new`}>
       <div style={question.seen?{backgroundColor: '#f4f4f4'}:{}} className="box-body">
         <div className="direct-chat-messages" style={{height: 'auto'}}>
-          <div className="direct-chat-msg">
+          <div className="direct-chat-msg left">
             <div className="direct-chat-info clearfix">
               <span className="direct-chat-name pull-left">Въпрос {question.topic==='избери'?'':' за ' +question.topic}</span>
               <span className="direct-chat-timestamp pull-right">
@@ -28,8 +32,7 @@ const ShowQuestion = ({ question }) => {
                 {moment.unix(question.answer_time / 1000).format("DD MMM YYYY hh:mm:ss")}
               </span>
             </div>
-            <style>{'#direct-chat-text-id:before, #direct-chat-text-id:after { border-right-color: #green;'}</style>
-            <div id="direct-chat-text-id" className="direct-chat-text">
+            <div className="direct-chat-text">
               {question.answer}
             </div>
           </div>
@@ -39,6 +42,7 @@ const ShowQuestion = ({ question }) => {
           }
         </div>
       </div>
+    </div>
     </div>
   )
 }

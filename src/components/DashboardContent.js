@@ -21,12 +21,15 @@ const DashboardContent = () => {
                 </div>
             })}
             
+
+            <TasksInfo />
+
           </div>
 
 {(contestIsRunning || contestIsFinished) &&
           <div className="col-md-4">
             <p className="text-center">
-              <strong>Точки</strong>
+              <strong>Видими точки</strong>
             </p>
 
             <div className="progress-group">
@@ -91,6 +94,59 @@ const SeenAnnouncement = ({id}) => {
       &nbsp;Прочетох
       </div>
 
+  )
+}
+
+function TasksInfo() {
+  return (
+    <div className="box">
+      <div className="box-header with-border">
+        <h3 className="box-title">Задачи</h3>
+      </div>
+      <div className="box-body table-responsive">
+        <table className="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Задача</th>
+              <th>Време</th>
+              <th>Памет</th>
+              <th>Фийдбек</th>
+              <th>Събмити</th>
+            </tr>  
+          </thead>
+          <tbody>
+            <tr>
+              <td>stairs</td>
+              <td>{1} s</td>
+              <td>{100} MB</td>
+              <td>25/100</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>sign</td>
+              <td>{0.3} s</td>
+              <td>{128} MB</td>
+              <td>40/100</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>oval</td>
+              <td>{0.1} s</td>
+              <td>{356} MB</td>
+              <td>10/100</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>общо</td>
+              <td>-</td>
+              <td>-</td>
+              <td>75/300</td>
+              <td>50</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
 }
 

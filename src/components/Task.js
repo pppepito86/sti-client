@@ -5,6 +5,8 @@ import moment from 'moment'
 import { json, blob, post } from '../rest'
 import Verdict from './Verdict';
 import { useApp } from '../AppContext';
+import Scoreboard from './Scoreboard';
+import ScoreBoardBox from './ScoreBoardBox';
 
 var FileSaver = require('file-saver');
 
@@ -202,7 +204,7 @@ function TaskSubmissions({ tid, submissions }) {
                   <td><Link to={`/task/${tid}/submission/${submissions.length - i}`}>{submissions.length - i}</Link></td>
                   <td>{moment.unix(s.upload_time / 1000).format("DD MMM YYYY hh:mm:ss")}</td>
                   <td><Verdict verdict={s.verdict} /></td>
-                  <td>{s.points}</td>
+                  <ScoreBoardBox points={s.points} maxPoints={100} hovered={false} />
                 </tr>
               })}
           </tbody>

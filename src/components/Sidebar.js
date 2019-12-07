@@ -29,8 +29,8 @@ const Sidebar = () => {
             <Link to="/">
               <FontAwesomeIcon icon={faHome} /> &nbsp;<span>Начало</span>
               {unreadAnnouncements > 0 && 
-                <span class="pull-right-container">
-                  <small class="label pull-right bg-red">new</small>
+                <span className="pull-right-container">
+                  <small className="label pull-right bg-red">new</small>
                 </span>
               }
             </Link>
@@ -39,8 +39,8 @@ const Sidebar = () => {
             <Link to="/questions">
               <FontAwesomeIcon icon={faQuestion} /> &nbsp;<span>Въпроси</span>
               {unreadQuestions > 0 && 
-                <span class="pull-right-container">
-                  <small class="label pull-right bg-red">new</small>
+                <span className="pull-right-container">
+                  <small className="label pull-right bg-red">new</small>
                 </span>
               }
             </Link>

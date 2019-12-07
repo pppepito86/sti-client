@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import useAsync from './useAsync'
 import useInterval from './useInterval'
 import { json } from './rest'
+import { getLocalIp, getLocalIPs } from './ip'
 
 const AppContext = React.createContext()
 
 const AppProvider = ({children}) => {
     const [error, setError] = useState();
+
+    const [ip, setIp] = useState();
 
     const [now, setNow] = useState(Date.now());
     const [time, setTime] = useState();
@@ -58,6 +61,12 @@ const AppProvider = ({children}) => {
         if (!contestIsFinished) setContestIsFinished(true);
         if (!contestIsStarted) setContestIsStarted(true);
     }, time && contestIsRunning ? time.timeTillEnd : null);
+
+    useEffect(() => {
+        getLocalIp().then(function(ip) {
+            setIp(ip);
+		});
+    }, []);
 
     useEffect(() => {
         if (timeData) {

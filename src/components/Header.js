@@ -16,11 +16,6 @@ function Header() {
         <span className="logo-lg">СТИ</span>
       </Link>
       <nav className="navbar navbar-static-top">
-        <a href="/" className="sidebar-toggle" data-toggle="push-menu" role="button">
-          <FontAwesomeIcon  icon={faBars} />
-          <span className="sr-only">Toggle navigation</span>
-        </a>
-
         <div className="logo" style={{width: 'auto', backgroundColor: 'rgba(255, 255, 255, 0)'}}>
           {localStorage.getItem("name")}, {localStorage.getItem("contest")} група
         </div>
