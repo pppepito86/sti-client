@@ -4,25 +4,17 @@ import Task from './Task';
 import LoadingContent from './LoadingContent';
 import { json } from '../rest'
 import useAsync from '../useAsync'
-import useInterval from '../useInterval'
 import { useApp } from '../AppContext';
+import useTask from '../useTask';
 
 const TaskContent = () => {
   const contestIsRunning = useApp().contestIsRunning;
   const contestIsFinished = useApp().contestIsFinished;
 
   const { tid } = useParams();
-  const { value: task, loading: loadingTask } = useAsync(json, `tasks/${tid}`, [tid]);
+  const { task, submissions, nextSubmissionTime, loading } = useTask(tid);
 
-  const { value: timeLeft } = useAsync(json, 'timeToSubmit', []);
-
-  const [refresh, setRefresh] = useState(0);
-  const { value: submissions, loading: loadingSubmissions } = useAsync(json, `tasks/${tid}/submissions`, [tid, refresh]);
-  useInterval(() => {
-    setRefresh(refresh+1);
-  }, submissions && submissions.some(s => s.verdict==='waiting'||s.verdict==='judging') ? 5000 : null);
-
-  if (loadingTask || (!contestIsRunning && !contestIsFinished)) return <LoadingContent />
+  if (loading || (!contestIsRunning && !contestIsFinished)) return <LoadingContent />
 
   const points = submissions?submissions.reduce((prev, current) => Math.max(prev, current.points), 0) : 0;
   return (
@@ -47,7 +39,7 @@ const TaskContent = () => {
           </div>
           <div className="col-md-6">
             {contestIsFinished && <Task.TaskLimits time={task.time} memory={task.memory} />}
-            {contestIsRunning && timeLeft && <Task.TaskSubmit tid={tid} timeToSubmit={timeLeft.timeToSubmit} />}
+            {contestIsRunning && <Task.TaskSubmit tid={tid} nextSubmissionTime={nextSubmissionTime} />}
           </div>
         </div>
         <div className="row">
