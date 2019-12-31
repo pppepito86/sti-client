@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation } from "react-router";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faSignOutAlt, faEnvelope, faBell } from '@fortawesome/free-solid-svg-icons'
@@ -8,8 +9,10 @@ import { useTitle } from '../TitleContext';
 
 function Header() {
   const title = useTitle().shortTitle;
+  const location = useLocation();
   const unreadQuestions = useApp().unreadQuestions;
   const unreadAnnouncements = useApp().unreadAnnouncements;
+  const markQuestionsSeen = useApp().markQuestionsSeen;
 
   return (
     <header className="main-header">
@@ -24,15 +27,15 @@ function Header() {
 
         <div className="navbar-custom-menu">
           <ul className="nav navbar-nav">
-            <li>
+            <li className={location.pathname === '/' ? 'active' : ''}>
               <Link to="/"><FontAwesomeIcon icon={faBell} />
                 {unreadAnnouncements > 0 && <span className="label label-danger">
                   {unreadAnnouncements}
                 </span>}
               </Link>
             </li>
-            <li>
-              <Link to="/questions"><FontAwesomeIcon icon={faEnvelope} />
+            <li className={location.pathname === '/questions' ? 'active' : ''}>
+              <Link to="/questions" onClick={markQuestionsSeen}><FontAwesomeIcon icon={faEnvelope} />
                 {unreadQuestions > 0 && <span className="label label-danger">
                   {unreadQuestions}
                 </span>}

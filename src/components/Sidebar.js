@@ -17,6 +17,7 @@ const Sidebar = () => {
   const contestIsFinished = useApp().contestIsFinished;
   const unreadQuestions = useApp().unreadQuestions;
   const unreadAnnouncements = useApp().unreadAnnouncements;
+  const markQuestionsSeen = useApp().markQuestionsSeen;
 
   return (
     <aside className="main-sidebar">
@@ -30,17 +31,17 @@ const Sidebar = () => {
               <FontAwesomeIcon icon={faHome} /> &nbsp;<span>Начало</span>
               {unreadAnnouncements > 0 && 
                 <span className="pull-right-container">
-                  <small className="label pull-right bg-red">new</small>
+                  <small className="label pull-right bg-red">ново</small>
                 </span>
               }
             </Link>
           </li>
           <li className={location.pathname === '/questions' ? 'active' : ''}>
-            <Link to="/questions">
+            <Link to="/questions" onClick={markQuestionsSeen}>
               <FontAwesomeIcon icon={faQuestion} /> &nbsp;<span>Въпроси</span>
               {unreadQuestions > 0 && 
                 <span className="pull-right-container">
-                  <small className="label pull-right bg-red">new</small>
+                  <small className="label pull-right bg-red">ново</small>
                 </span>
               }
             </Link>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useAsync from './useAsync'
 import useInterval from './useInterval'
-import { json } from './rest'
+import { json, post } from './rest'
 import { getLocalIp, getLocalIPs } from './ip'
 
 const AppContext = React.createContext()
@@ -41,6 +41,20 @@ const AppProvider = ({children}) => {
 
     function updateAnnouncements() {
         setShouldUpdateAnnouncements(shouldUpdateAnnouncements => !shouldUpdateAnnouncements);
+    }
+
+    async function markQuestionsSeen() {
+        for (var i = 0; i < questions.length; i++) {
+            if (questions[i].seen) continue;
+            await markQuestionSeen(questions[i].id);
+        }
+        updateQuestions();
+    }
+
+    const markQuestionSeen = async (id) => {
+        const formData = new FormData();
+        formData.append('id', id);
+        await post(`questions/seen`, formData);
     }
 
     useInterval(() => {
@@ -112,9 +126,10 @@ const AppProvider = ({children}) => {
                 contestIsStarted: contestIsStarted,
                 questions: questions,
                 unreadQuestions: unreadQuestions,
+                markQuestionsSeen: markQuestionsSeen,
+                updateQuestions: updateQuestions,
                 announcements: announcements,
                 unreadAnnouncements: unreadAnnouncements,
-                updateQuestions: updateQuestions,
                 updateAnnouncements: updateAnnouncements
             }}>
             {children}

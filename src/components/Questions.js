@@ -37,7 +37,7 @@ const ShowQuestion = ({ question }) => {
             </div>
           </div>
           }
-          {question.answer && !question.seen &&
+          {question.answer && !question.seen && false &&
             <SeenQuestion id={question.id} />
           }
         </div>
