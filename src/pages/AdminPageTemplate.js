@@ -11,13 +11,15 @@ import QuestionsContent from '../components/QuestionsContent';
 import { AppProvider } from '../AppContext';
 import Modal from '../components/Modal';
 import AdminDashboardContent from '../components/admin/AdminDashboardContent';
+import AdminHeader from '../components/admin/AdminHeader';
+import AdminSidebar from '../components/admin/AdminSidebar';
 
-const PageTemplate = ({ content }) => {
+const AdminPageTemplate = ({ content }) => {
     return (
         <AppProvider>
             <div className="wrapper">
-                <Header />
-                <Sidebar />
+                <AdminHeader />
+                <AdminSidebar />
                 {content === 'task' && <TaskContent />}
                 {content === 'submission' && <SubmissionContent />}
                 {content === 'pdf' && <PdfContent />}
@@ -32,4 +34,4 @@ const PageTemplate = ({ content }) => {
     )
 }
 
-export default PageTemplate
+export default AdminPageTemplate

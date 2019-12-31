@@ -60,8 +60,8 @@ function TaskSubmit({ tid, timeToSubmit }) {
   return (
     <div className="nav-tabs-custom" style={{ borderTop: '3px solid #d2d6de', borderBottom: '1px solid #f4f4f4' }}>
       <ul className="nav nav-tabs pull-right">
-        <li className="active" style={{ marginTop: '-3px' }}><a href="http://52.59.81.222/user/problem/1#file-upload" data-toggle="tab">Файл</a></li>
-        <li style={{ marginTop: '-3px' }}><a href="http://52.59.81.222/user/problem/1#source-upload" data-toggle="tab">Код</a></li>
+        <li className="active" style={{ marginTop: '-3px' }}><a href="#file-upload" data-toggle="tab">Файл</a></li>
+        <li style={{ marginTop: '-3px' }}><a href="#source-upload" data-toggle="tab">Код</a></li>
         <li className="pull-left header" style={{ fontSize: '18px' }}>Предай решение</li>
       </ul>
       <div className="tab-content no-padding">
@@ -112,7 +112,6 @@ function TaskSubmitFile({ tid, timeToSubmit }) {
     </div>
   )
 }
-
 
 function TaskSubmitCode({ tid, timeToSubmit }) {
   const history = useHistory();
