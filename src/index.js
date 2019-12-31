@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { AuthProvider } from './AuthContext';
+import { TitleProvider } from './TitleContext';
 
 ReactDOM.render(
-    <AuthProvider>
-        <App />
-    </AuthProvider>, 
+    <TitleProvider>
+        <AuthProvider>
+            <App />
+        </AuthProvider>
+    </TitleProvider>, 
     document.getElementById('root')
 );
 

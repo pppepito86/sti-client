@@ -4,16 +4,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faSignOutAlt, faEnvelope, faBell } from '@fortawesome/free-solid-svg-icons'
 import { useAuth } from '../../AuthContext'
 import { useApp } from '../../AppContext';
+import { useTitle } from '../../TitleContext';
 
 function AdminHeader() {
+  const title = useTitle().shortTitle;
   const unreadQuestions = useApp().unreadQuestions;
   const unreadAnnouncements = useApp().unreadAnnouncements;
 
   return (
     <header className="main-header">
       <Link to="/" className="logo">
-        <span className="logo-mini"><b>СТИ</b></span>
-        <span className="logo-lg">СТИ</span>
+  <span className="logo-mini"><b>{title}</b></span>
+        <span className="logo-lg">{title}</span>
       </Link>
       <nav className="navbar navbar-static-top">
         <div className="logo" style={{width: 'auto', backgroundColor: 'rgba(255, 255, 255, 0)'}}>

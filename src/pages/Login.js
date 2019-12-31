@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../AuthContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKey, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useTitle } from '../TitleContext';
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -13,11 +14,13 @@ function Login() {
     login(username, password)
   }, [login, username, password])
 
+  const title = useTitle().fullTitle;
+
   return (
     <div style={{ height: '100%', background: '#d2d6de', transition: 'none', OTransition: 'none', WebkitTransition: 'none' }}>
       <div className="login-box" style={{ margin: '0 auto', paddingTop: '7%', minHeight: '550px'}}>
         <div className="login-logo">
-          <a href="/"><b>Софийски турнир по информатика</b></a>
+          <a href="/"><b>{title}</b></a>
         </div>
         <div className="login-box-body">
 
