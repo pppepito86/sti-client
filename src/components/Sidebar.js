@@ -17,6 +17,7 @@ const Sidebar = () => {
   const unreadQuestions = useApp().unreadQuestions;
   const unreadAnnouncements = useApp().unreadAnnouncements;
   const markQuestionsSeen = useApp().markQuestionsSeen;
+  const markAnnouncementsSeen = useApp().markAnnouncementsSeen;
 
   const { value: tasks, loading } = useAsync(json, 'tasks', [contestIsRunning]);
 
@@ -28,7 +29,7 @@ const Sidebar = () => {
         <ul className="sidebar-menu tree" data-widget="tree">      
           <li className="header">МЕНЮ</li>
           <li className={location.pathname === '/' ? 'active' : ''}>
-            <Link to="/">
+            <Link to="/" onClick={markAnnouncementsSeen}>
               <FontAwesomeIcon icon={faHome} /> &nbsp;<span>Начало</span>
               {unreadAnnouncements > 0 && 
                 <span className="pull-right-container">

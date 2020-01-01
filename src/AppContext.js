@@ -57,6 +57,20 @@ const AppProvider = ({children}) => {
         await post(`questions/seen`, formData);
     }
 
+    async function markAnnouncementsSeen() {
+        for (var i = 0; i < announcements.length; i++) {
+            if (announcements[i].seen) continue;
+            await markAnnouncementSeen(announcements[i].id);
+        }
+        updateAnnouncements();
+    }
+
+    const markAnnouncementSeen = async (id) => {
+        const formData = new FormData();
+        formData.append('id', id);
+        await post(`announcements/seen`, formData);
+    }
+
     useInterval(() => {
         setNow(Date.now());
         updateTime();
@@ -130,7 +144,8 @@ const AppProvider = ({children}) => {
                 updateQuestions: updateQuestions,
                 announcements: announcements,
                 unreadAnnouncements: unreadAnnouncements,
-                updateAnnouncements: updateAnnouncements
+                updateAnnouncements: updateAnnouncements,
+                markAnnouncementsSeen: markAnnouncementsSeen
             }}>
             {children}
         </AppContext.Provider>

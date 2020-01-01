@@ -13,6 +13,7 @@ function Header() {
   const unreadQuestions = useApp().unreadQuestions;
   const unreadAnnouncements = useApp().unreadAnnouncements;
   const markQuestionsSeen = useApp().markQuestionsSeen;
+  const markAnnouncementsSeen = useApp().markAnnouncementsSeen;
 
   return (
     <header className="main-header">
@@ -28,7 +29,7 @@ function Header() {
         <div className="navbar-custom-menu">
           <ul className="nav navbar-nav">
             <li className={location.pathname === '/' ? 'active' : ''}>
-              <Link to="/"><FontAwesomeIcon icon={faBell} />
+              <Link to="/" onClick={markAnnouncementsSeen}><FontAwesomeIcon icon={faBell} />
                 {unreadAnnouncements > 0 && <span className="label label-danger">
                   {unreadAnnouncements}
                 </span>}

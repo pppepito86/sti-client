@@ -21,10 +21,10 @@ const DashboardContent = () => {
           <div className="col-md-8">
             {
               announcements.slice().reverse().map((a) => {
-                return <div key={a.id} className="callout callout-info">
+                return <div key={a.id} className={'callout callout-'+(a.seen?'info':'danger')}>
                   {a.topic && <h4>{a.topic}</h4>}
                   <p>{a.announcement}</p>
-                  {!a.seen && <SeenAnnouncement id={a.id} />}
+                  {!a.seen && false && <SeenAnnouncement id={a.id} />}
                 </div>
             })}
 
