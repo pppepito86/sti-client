@@ -1,11 +1,18 @@
 import React from 'react';
 import { useApp } from '../AppContext';
 import {post} from '../rest';
+import { json } from '../rest'
+import useAsync from '../useAsync';
+import LoadingContent from './LoadingContent';
 
 const DashboardContent = () => {
   const announcements = useApp().announcements;
   const contestIsRunning = useApp().contestIsRunning;
   const contestIsFinished = useApp().contestIsFinished;
+
+  const { value: tasks, loading } = useAsync(json, `tasks/info`, []);
+
+  if (loading) return <LoadingContent />
 
   return (
     <div className="content-wrapper" style={{ minHeight: '550px' }}>
@@ -20,9 +27,8 @@ const DashboardContent = () => {
                   {!a.seen && <SeenAnnouncement id={a.id} />}
                 </div>
             })}
-            
 
-            <TasksInfo />
+            <TasksInfo tasks={tasks} />
 
           </div>
 
@@ -32,45 +38,19 @@ const DashboardContent = () => {
               <strong>Видими точки</strong>
             </p>
 
-            <div className="progress-group">
-              <span className="progress-text">bills</span>
-              <span className="progress-number"><b>80</b>/100</span>
+            {
+              tasks && tasks.map((t, i) => {
+                return <div key={i} className="progress-group">
+              <span className="progress-text">{t.name}</span>
+              <span className="progress-number"><b>{t.publicScore}</b>/{t.maxPublicScore}</span>
 
               <div className="progress sm">
-                <div className="progress-bar progress-bar-aqua" style={{ width: '80%' }}></div>
+                <div className="progress-bar progress-bar-aqua" style={{ width: 100*t.publicScore/t.maxPublicScore+'%' }}></div>
               </div>
             </div>
-            <div className="progress-group">
-              <span className="progress-text">sequence</span>
-              <span className="progress-number"><b>31</b>/100</span>
-
-              <div className="progress sm">
-                <div className="progress-bar progress-bar-red" style={{ width: '31%' }}></div>
-              </div>
-            </div>
-            <div className="progress-group">
-              <span className="progress-text">diff</span>
-              <span className="progress-number"><b>100</b>/100</span>
-
-              <div className="progress sm">
-                <div className="progress-bar progress-bar-green" style={{ width: '100%' }}></div>
-              </div>
-            </div>
-            <div className="progress-group">
-              <span className="progress-text">общо</span>
-              <span className="progress-number"><b>211</b>/300</span>
-
-              <div className="progress sm">
-                <div className="progress-bar progress-bar-yellow" style={{ width: '80%' }}></div>
-              </div>
-            </div>
+              })}
           </div>
 }
-
-
-
-
-
         </div>
       </section>
     </div>
@@ -97,11 +77,12 @@ const SeenAnnouncement = ({id}) => {
   )
 }
 
-function TasksInfo() {
+function TasksInfo({tasks}) {
+
   return (
     <div className="box">
       <div className="box-header with-border">
-        <h3 className="box-title">Задачи</h3>
+        <h3 className="box-title">Ограничения</h3>
       </div>
       <div className="box-body table-responsive">
         <table className="table table-bordered table-hover">
@@ -115,34 +96,16 @@ function TasksInfo() {
             </tr>  
           </thead>
           <tbody>
-            <tr>
-              <td>stairs</td>
-              <td>{1} s</td>
-              <td>{100} MB</td>
-              <td>25/100</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>sign</td>
-              <td>{0.3} s</td>
-              <td>{128} MB</td>
-              <td>40/100</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>oval</td>
-              <td>{0.1} s</td>
-              <td>{356} MB</td>
-              <td>10/100</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>общо</td>
-              <td>-</td>
-              <td>-</td>
-              <td>75/300</td>
-              <td>50</td>
-            </tr>
+            {
+              tasks && tasks.map((t, i) => {
+                return <tr key={i}>
+                  <td>{t.name}</td>
+                  <td>{t.time?t.time+'s':'-'} </td>
+                  <td>{t.memory?t.memory+'MB':'-'}</td>
+                  <td>{t.feedback?t.feedback:'-'}</td>
+                  <td>{t.submissions?t.submissions:'-'}</td>
+                </tr>
+              })}
           </tbody>
         </table>
       </div>

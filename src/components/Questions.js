@@ -68,12 +68,13 @@ const SeenQuestion = ({id}) => {
 }
 
 const SendQuestion = () => {
-  const { value: tasks, loading } = useAsync(json, 'tasks', []);
+  const updateQuestions = useApp().updateQuestions;
+  const contestIsRunning = useApp().contestIsRunning;
+  const contestIsStarted = useApp().contestIsStarted;
+
+  const { value: tasks } = useAsync(json, 'tasks', [contestIsRunning]);
   const [topic, setTopic] = useState("избери");
   const [question, setQuestion] = useState("");
-
-  const updateQuestions = useApp().updateQuestions;
-  const contestIsStarted = useApp().contestIsStarted;
 
   const submitQuestion = async (e) => {
     e.preventDefault();
@@ -101,7 +102,7 @@ const SendQuestion = () => {
             <select onChange={(e) => setTopic(e.target.value)} value={topic} className="form-control">
               <option>избери</option>
               {
-                contestIsStarted && tasks && tasks.map((t) => {
+                tasks && tasks.map((t) => {
                   return <option key={t.number} value={t.name}>{t.name}</option>
               })}
             </select>

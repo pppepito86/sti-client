@@ -72,13 +72,14 @@ function ListWorkers({workers}) {
 
       {workers.length !== 0 && 
         <table class="table table-bordered">
-          <tbody>
+          <thead>
             <tr>
               <th style={{width: '10px'}}>Id</th>
               <th>Url</th>
               <th>Type</th>
             </tr>
-
+          </thead>
+          <tbody>
             {
               workers.map((worker, i) => {
                 return <tr key={i}>

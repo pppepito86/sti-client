@@ -12,12 +12,13 @@ import { useApp } from '../AppContext';
 const Sidebar = () => {
   const { tid } = useParams();
   const location = useLocation();
-  const { value: tasks, loading } = useAsync(json, 'tasks', []);
   const contestIsRunning = useApp().contestIsRunning;
   const contestIsFinished = useApp().contestIsFinished;
   const unreadQuestions = useApp().unreadQuestions;
   const unreadAnnouncements = useApp().unreadAnnouncements;
   const markQuestionsSeen = useApp().markQuestionsSeen;
+
+  const { value: tasks, loading } = useAsync(json, 'tasks', [contestIsRunning]);
 
   return (
     <aside className="main-sidebar">

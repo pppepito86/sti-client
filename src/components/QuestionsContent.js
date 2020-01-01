@@ -1,14 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ShowQuestion, SendQuestion } from './Questions';
 import { useApp } from '../AppContext';
-import { post } from '../rest';
 
 const QuestionsContent = () => {
   const questions = useApp().questions;
-
-  useEffect(() => {
-    console.log("here");
-  }, []);
 
   return (
     <div className="content-wrapper" style={{ minHeight: '550px' }}>
